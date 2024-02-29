@@ -5,7 +5,7 @@ object frmPrincipal: TfrmPrincipal
   Caption = 'Primeira aula'
   ClientHeight = 94
   ClientWidth = 400
-  Color = clBtnFace
+  Color = clSkyBlue
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -12

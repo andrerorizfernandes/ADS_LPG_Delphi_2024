@@ -58,7 +58,7 @@ begin
   frmPrincipal.Caption := 'Primeira aula';
 
   if pMensagem = 'andre' then
-    frmPrincipal.Caption := 'TESTE TESTE TESTE';
+    frmPrincipal.Caption := 'PRIMEIRA AULA';
 end;
 
 procedure TfrmPrincipal.ValidarCamposObrigatorios;
