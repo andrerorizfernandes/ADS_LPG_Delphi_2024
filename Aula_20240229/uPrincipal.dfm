@@ -13,6 +13,7 @@ object frmPrincipal: TfrmPrincipal
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnActivate = FormActivate
   TextHeight = 15
   object pnlPrincipal: TPanel
     Left = 0
@@ -21,9 +22,6 @@ object frmPrincipal: TfrmPrincipal
     Height = 250
     Align = alClient
     TabOrder = 0
-    ExplicitTop = -2
-    ExplicitWidth = 615
-    ExplicitHeight = 289
     object lblNome: TLabel
       Left = 7
       Top = 8
@@ -114,9 +112,6 @@ object frmPrincipal: TfrmPrincipal
       Height = 23
       Style = csDropDownList
       TabOrder = 4
-      Items.Strings = (
-        'Feminino'
-        'Masculino')
     end
     object cboEstadoCivil: TComboBox
       Left = 498
@@ -125,11 +120,6 @@ object frmPrincipal: TfrmPrincipal
       Height = 23
       Style = csDropDownList
       TabOrder = 5
-      Items.Strings = (
-        'Solteiro'
-        'Casado'
-        'Divorciado'
-        'Vi'#250'vo')
     end
     object memObservacoes: TMemo
       Left = 7
@@ -146,8 +136,6 @@ object frmPrincipal: TfrmPrincipal
     Height = 30
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 350
-    ExplicitWidth = 664
     object btnCancelar: TBitBtn
       Left = 548
       Top = 1
@@ -159,8 +147,6 @@ object frmPrincipal: TfrmPrincipal
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
-      ExplicitLeft = 560
-      ExplicitHeight = 33
     end
     object btnGravar: TBitBtn
       Left = 445
@@ -173,8 +159,7 @@ object frmPrincipal: TfrmPrincipal
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
-      ExplicitLeft = 560
-      ExplicitHeight = 33
+      OnClick = btnGravarClick
     end
   end
 end
