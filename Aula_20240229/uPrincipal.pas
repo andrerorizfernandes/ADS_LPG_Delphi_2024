@@ -32,7 +32,9 @@ type
     procedure PreencherSexo;
     procedure PreencherEstadoCivil;
     procedure ValidarDados;
-    function GravarDados(const pNome, pIdade, pCpf, pIdentidade, pSexo, pEstadoCivil: string): string;
+    procedure ExibirTelaDeMensagem(const pMensagem: TStringList);
+    procedure RetornarDadosPreenchidosPeloUsuario(const pNome, pIdade, pCpf, pIdentidade, pSexo, pEstadoCivil, pObservacoes: string;
+      out pListaRetorno: TStringList);
     { Private declarations }
   public
     { Public declarations }
@@ -43,50 +45,68 @@ var
 
 implementation
 
+uses
+  uMensagem;
+
 {$R *.dfm}
 
 procedure TfrmPrincipal.btnGravarClick(Sender: TObject);
 begin
+  //Realiza a validação dos campos obrigatórios e caso não encontre falhas aciona o método de gravação de dados que retorna uma mensagem formatada para exibição ao usuário
   ValidarDados;
-  ShowMessage(GravarDados(
-    edtNome.Text,
-    edtIdade.Text,
-    edtCpf.Text,
-    edtIdentidade.Text,
-    cboSexo.Text,
-    cboEstadoCivil.Text));
-end;
-
-procedure TfrmPrincipal.FormActivate(Sender: TObject);
-begin
-  PreencherSexo;
-  PreencherEstadoCivil;
-end;
-
-function TfrmPrincipal.GravarDados(const pNome, pIdade, pCpf, pIdentidade, pSexo, pEstadoCivil: string): string;
-begin
   var lResultado: TStringList;
   lResultado := TStringList.Create;
   try
-    lResultado.Add('Nome: ' + pNome);
-    lResultado.Add('Idade: ' + pIdade);
-    lResultado.Add('Cpf: ' + pCpf);
-    lResultado.Add('Identidade: ' + pIdentidade);
-    lResultado.Add('Sexo: ' + pSexo);
-    lResultado.Add('Estado Civil: ' + pEstadoCivil);
-
-    var lValor, lMensagem: string;
-    for lValor in lResultado do
-      lMensagem := lMensagem + lValor + sLineBreak;
-
-    Result := lMensagem;
+    RetornarDadosPreenchidosPeloUsuario(
+      edtNome.Text,
+      edtIdade.Text,
+      edtCpf.Text,
+      edtIdentidade.Text,
+      cboSexo.Text,
+      cboEstadoCivil.Text,
+      memObservacoes.Text,
+      lResultado);
+    ExibirTelaDeMensagem(lResultado);
   finally
     lResultado.Free;
   end;
 end;
 
+procedure TfrmPrincipal.ExibirTelaDeMensagem(const pMensagem: TStringList);
+begin
+  var lTelaMensagem: TfrmMensagem;
+  lTelaMensagem := TfrmMensagem.Create(nil);
+  try
+    lTelaMensagem.ExibirMensagem(pMensagem);
+  finally
+    lTelaMensagem.Free;
+  end;
+end;
+
+procedure TfrmPrincipal.FormActivate(Sender: TObject);
+begin
+  //Aciona os métodos de preenchimento das caixas de seleção
+  PreencherSexo;
+  PreencherEstadoCivil;
+end;
+
+procedure TfrmPrincipal.RetornarDadosPreenchidosPeloUsuario(const pNome, pIdade, pCpf, pIdentidade, pSexo, pEstadoCivil, pObservacoes: string;
+  out pListaRetorno: TStringList);
+begin
+  //método utilizado para gravar os dados em um TStringList e depois montar uma mensagem de retorno concatenada e separada por quebra de linha
+
+  pListaRetorno.Add('Nome: ' + pNome);
+  pListaRetorno.Add('Idade: ' + pIdade);
+  pListaRetorno.Add('Cpf: ' + pCpf);
+  pListaRetorno.Add('Identidade: ' + pIdentidade);
+  pListaRetorno.Add('Sexo: ' + pSexo);
+  pListaRetorno.Add('Estado Civil: ' + pEstadoCivil);
+  pListaRetorno.Add('Observações: ' + pObservacoes);
+end;
+
 procedure TfrmPrincipal.PreencherEstadoCivil;
 begin
+  //método para preenchimento da caixa de seleção de estado civil
   cboEstadoCivil.Items.Clear;
   cboEstadoCivil.Items.Add('Solteiro');
   cboEstadoCivil.Items.Add('Casado');
@@ -96,6 +116,7 @@ end;
 
 procedure TfrmPrincipal.PreencherSexo;
 begin
+  //método para preenchimento da caixa de seleção de sexo
   cboSexo.Items.Clear;
   cboSexo.Items.Add('Feminino');
   cboSexo.Items.Add('Masculino');
@@ -103,6 +124,7 @@ end;
 
 procedure TfrmPrincipal.ValidarDados;
 begin
+  //método para realizar a validação dos campos obrigtatórios; caso algum esteja vazio, o componente recebe foco e interrompe a operação totalmente
   if Trim(edtNome.Text).IsEmpty then
   begin
     ShowMessage('Informe o nome');

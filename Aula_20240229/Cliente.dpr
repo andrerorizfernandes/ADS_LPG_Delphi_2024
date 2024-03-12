@@ -2,7 +2,8 @@ program Cliente;
 
 uses
   Vcl.Forms,
-  uPrincipal in 'uPrincipal.pas' {frmPrincipal};
+  uPrincipal in 'uPrincipal.pas' {frmPrincipal},
+  uMensagem in 'uMensagem.pas' {frmMensagem};
 
 {$R *.res}
 
