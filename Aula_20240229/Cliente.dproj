@@ -5,7 +5,7 @@
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
         <MainSource>Cliente.dpr</MainSource>
@@ -130,6 +130,10 @@
         </DCCReference>
         <DCCReference Include="uMensagem.pas">
             <Form>frmMensagem</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uExibirClientes.pas">
+            <Form>frmExibirClientes</Form>
             <FormType>dfm</FormType>
         </DCCReference>
         <BuildConfiguration Include="Base">

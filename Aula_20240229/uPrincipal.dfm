@@ -147,6 +147,7 @@ object frmPrincipal: TfrmPrincipal
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
+      OnClick = btnCancelarClick
     end
     object btnGravar: TBitBtn
       Left = 445
@@ -160,6 +161,20 @@ object frmPrincipal: TfrmPrincipal
       ShowHint = True
       TabOrder = 0
       OnClick = btnGravarClick
+    end
+    object btnExibirMensagem: TBitBtn
+      Left = 342
+      Top = 1
+      Width = 103
+      Height = 28
+      Hint = 'Clique aqui para gravar'
+      Align = alRight
+      Caption = '&Mensagem'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+      OnClick = btnExibirMensagemClick
+      ExplicitLeft = 445
     end
   end
 end

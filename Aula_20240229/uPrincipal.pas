@@ -26,8 +26,11 @@ type
     cboEstadoCivil: TComboBox;
     lblObservacoes: TLabel;
     memObservacoes: TMemo;
+    btnExibirMensagem: TBitBtn;
     procedure FormActivate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnExibirMensagemClick(Sender: TObject);
   private
     procedure PreencherSexo;
     procedure PreencherEstadoCivil;
@@ -35,6 +38,7 @@ type
     procedure ExibirTelaDeMensagem(const pMensagem: TStringList);
     procedure RetornarDadosPreenchidosPeloUsuario(const pNome, pIdade, pCpf, pIdentidade, pSexo, pEstadoCivil, pObservacoes: string;
       out pListaRetorno: TStringList);
+    procedure GravarCliente(const pNome, pIdade, pCpf, pIdentidade, pSexo, pEstadoCivil, pObservacoes: string);
     { Private declarations }
   public
     { Public declarations }
@@ -46,17 +50,21 @@ var
 implementation
 
 uses
-  uMensagem;
+  uMensagem, uExibirClientes;
 
 {$R *.dfm}
 
-procedure TfrmPrincipal.btnGravarClick(Sender: TObject);
+procedure TfrmPrincipal.btnCancelarClick(Sender: TObject);
 begin
-  //Realiza a validação dos campos obrigatórios e caso não encontre falhas aciona o método de gravação de dados que retorna uma mensagem formatada para exibição ao usuário
-  ValidarDados;
+  Close;
+end;
+
+procedure TfrmPrincipal.btnExibirMensagemClick(Sender: TObject);
+begin
   var lResultado: TStringList;
   lResultado := TStringList.Create;
   try
+    ValidarDados;
     RetornarDadosPreenchidosPeloUsuario(
       edtNome.Text,
       edtIdade.Text,
@@ -70,6 +78,20 @@ begin
   finally
     lResultado.Free;
   end;
+end;
+
+procedure TfrmPrincipal.btnGravarClick(Sender: TObject);
+begin
+  //Realiza a validação dos campos obrigatórios e caso não encontre falhas aciona o método de gravação de dados que retorna uma mensagem formatada para exibição ao usuário
+  ValidarDados;
+  GravarCliente(
+    edtNome.Text,
+    edtIdade.Text,
+    edtCpf.Text,
+    edtIdentidade.Text,
+    cboSexo.Text,
+    cboEstadoCivil.Text,
+    memObservacoes.Text);
 end;
 
 procedure TfrmPrincipal.ExibirTelaDeMensagem(const pMensagem: TStringList);
@@ -88,6 +110,28 @@ begin
   //Aciona os métodos de preenchimento das caixas de seleção
   PreencherSexo;
   PreencherEstadoCivil;
+end;
+
+procedure TfrmPrincipal.GravarCliente(const pNome, pIdade, pCpf, pIdentidade,
+  pSexo, pEstadoCivil, pObservacoes: string);
+begin
+  var lTelaExibirClientes: TfrmExibirClientes;
+  lTelaExibirClientes := TfrmExibirClientes.Create(nil);
+  try
+    lTelaExibirClientes.cdsCliente.Append;
+    lTelaExibirClientes.cdsClienteNome.Value := pNome;
+    lTelaExibirClientes.cdsClienteIdade.Value := pIdade;
+    lTelaExibirClientes.cdsClienteCpf.Value := pCpf;
+    lTelaExibirClientes.cdsClienteIdentidade.Value := pIdentidade;
+    lTelaExibirClientes.cdsClienteSexo.Value := pSexo;
+    lTelaExibirClientes.cdsClienteEstadoCivil.Value := pEstadoCivil;
+    lTelaExibirClientes.cdsClienteObservacoes.Value := pObservacoes;
+    lTelaExibirClientes.cdsCliente.Post;
+
+    lTelaExibirClientes.ShowModal;
+  finally
+    lTelaExibirClientes.Free;
+  end;
 end;
 
 procedure TfrmPrincipal.RetornarDadosPreenchidosPeloUsuario(const pNome, pIdade, pCpf, pIdentidade, pSexo, pEstadoCivil, pObservacoes: string;
