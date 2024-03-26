@@ -28,10 +28,14 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnExcluirClick(Sender: TObject);
   private
-    procedure InserirProduto;
+    procedure AbrirCadastroDeProduto(const pAlterando: Boolean);
     procedure ExcluirProduto;
     procedure AbrirEstrutura;
     procedure FecharEstrutura;
+    procedure ValidarDados;
+    procedure GravarCenario;
+    procedure RecuperarCenario;
+    function DiretorioCompletoDoArquivoXml: string;
     { Private declarations }
   public
     { Public declarations }
@@ -49,11 +53,12 @@ uses
 
 { TfrmProduto }
 
-procedure TfrmProduto.InserirProduto;
+procedure TfrmProduto.AbrirCadastroDeProduto(const pAlterando: Boolean);
 begin
   var lTelaCadastroProduto: TfrmCadProduto;
   lTelaCadastroProduto := TfrmCadProduto.Create(nil);
   try
+    lTelaCadastroProduto.FAlterando := pAlterando;
     lTelaCadastroProduto.ShowModal;
   finally
     lTelaCadastroProduto.Free;
@@ -71,23 +76,29 @@ end;
 
 procedure TfrmProduto.btnEditarClick(Sender: TObject);
 begin
-  InserirProduto;
+  ValidarDados;
+  AbrirCadastroDeProduto(True);
 end;
 
 procedure TfrmProduto.btnExcluirClick(Sender: TObject);
 begin
+  ValidarDados;
   ExcluirProduto;
 end;
 
 procedure TfrmProduto.btnInserirClick(Sender: TObject);
 begin
-  InserirProduto;
+  AbrirCadastroDeProduto(False);
+end;
+
+function TfrmProduto.DiretorioCompletoDoArquivoXml: string;
+begin
+  Result := ExtractFilePath(ParamStr(0)) + 'CadastroProdutos.xml';
 end;
 
 procedure TfrmProduto.ExcluirProduto;
 begin
-  if (not cdsProduto.IsEmpty) then
-    cdsProduto.Delete;
+  cdsProduto.Delete;
 end;
 
 procedure TfrmProduto.FecharEstrutura;
@@ -97,12 +108,35 @@ end;
 
 procedure TfrmProduto.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  GravarCenario;
   FecharEstrutura;
 end;
 
 procedure TfrmProduto.FormCreate(Sender: TObject);
 begin
   AbrirEstrutura;
+  RecuperarCenario;
+end;
+
+procedure TfrmProduto.GravarCenario;
+begin
+  if (not frmProduto.cdsProduto.IsEmpty) then
+    frmProduto.cdsProduto.SaveToFile(DiretorioCompletoDoArquivoXml, dfXMLUTF8);
+end;
+
+procedure TfrmProduto.RecuperarCenario;
+begin
+  if FileExists(DiretorioCompletoDoArquivoXml) then
+    frmProduto.cdsProduto.LoadFromFile(DiretorioCompletoDoArquivoXml);
+end;
+
+procedure TfrmProduto.ValidarDados;
+begin
+  if (cdsProduto.IsEmpty) then
+  begin
+    ShowMessage('Sem produtos cadastrados');
+    Abort;
+  end;
 end;
 
 end.

@@ -13,6 +13,7 @@ object frmCadProduto: TfrmCadProduto
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnActivate = FormActivate
   TextHeight = 15
   object pnlCampos: TPanel
     Left = 0
@@ -21,9 +22,6 @@ object frmCadProduto: TfrmCadProduto
     Height = 99
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 1
-    ExplicitWidth = 623
-    ExplicitHeight = 208
     object lblCodigo: TLabel
       Left = 8
       Top = 5
@@ -107,7 +105,7 @@ object frmCadProduto: TfrmCadProduto
       Top = 66
       Width = 97
       Height = 23
-      TabOrder = 4
+      TabOrder = 5
     end
     object edtQuantidade: TEdit
       Left = 287
@@ -115,7 +113,7 @@ object frmCadProduto: TfrmCadProduto
       Width = 97
       Height = 23
       NumbersOnly = True
-      TabOrder = 5
+      TabOrder = 4
     end
   end
   object pnlBotoes: TPanel
@@ -125,8 +123,6 @@ object frmCadProduto: TfrmCadProduto
     Height = 30
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 207
-    ExplicitWidth = 623
     object btnCancelar: TBitBtn
       Left = 403
       Top = 1
@@ -136,7 +132,6 @@ object frmCadProduto: TfrmCadProduto
       Caption = '&Cancelar'
       ModalResult = 8
       TabOrder = 1
-      ExplicitLeft = 528
     end
     object btnGravar: TBitBtn
       Left = 309
@@ -147,7 +142,6 @@ object frmCadProduto: TfrmCadProduto
       Caption = '&Gravar'
       TabOrder = 0
       OnClick = btnGravarClick
-      ExplicitLeft = 528
     end
   end
 end

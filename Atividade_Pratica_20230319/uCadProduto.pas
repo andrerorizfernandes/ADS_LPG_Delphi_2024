@@ -25,10 +25,15 @@ type
     lblQuantidade: TLabel;
     lblValor: TLabel;
     procedure btnGravarClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
-    procedure GravarNovoProduto;
+    procedure GravarProduto;
+    procedure LimparCamposDaTela;
+    procedure CarregarDadosNaTela;
+    function IndiceDaUnidadeNaCaixaDeSelecao(const pUnidade: string): Integer;
     { Private declarations }
   public
+    FAlterando: Boolean;
     { Public declarations }
   end;
 
@@ -40,20 +45,66 @@ uses uProduto;
 
 procedure TfrmCadProduto.btnGravarClick(Sender: TObject);
 begin
-  GravarNovoProduto;
+  GravarProduto;
   Close;
 end;
 
-procedure TfrmCadProduto.GravarNovoProduto;
+procedure TfrmCadProduto.CarregarDadosNaTela;
 begin
-  frmProduto.cdsProduto.Append;
-  frmProduto.cdsProdutoCodigo.Value := StrToIntDef(edtCodigo.Text, 0);
+  edtCodigo.Text := frmProduto.cdsProdutoCodigo.AsString;
+  edtDescricao.Text := frmProduto.cdsProdutoNome.AsString;
+  edtEan.Text := frmProduto.cdsProdutoEan.AsString;
+  cboUnidade.ItemIndex := IndiceDaUnidadeNaCaixaDeSelecao(frmProduto.cdsProdutoUnidade.AsString);
+  edtQuantidade.Text := frmProduto.cdsProdutoQuantidade.AsString;
+  edtValor.Text := frmProduto.cdsProdutoValor.AsString;
+end;
+
+function TfrmCadProduto.IndiceDaUnidadeNaCaixaDeSelecao(
+  const pUnidade: string): Integer;
+begin
+  Result := -1;
+
+  var I: Integer;
+  for I := 0 to cboUnidade.Items.Count - 1 do
+    if (cboUnidade.Items[I] = pUnidade) then
+    begin
+      Result := I;
+      Break;
+    end;
+end;
+
+procedure TfrmCadProduto.FormActivate(Sender: TObject);
+begin
+  if FAlterando then
+    CarregarDadosNaTela
+  else
+    LimparCamposDaTela;
+end;
+
+procedure TfrmCadProduto.GravarProduto;
+begin
+  if FAlterando then
+    frmProduto.cdsProduto.Edit
+  else
+    frmProduto.cdsProduto.Append;
+
+  frmProduto.cdsProdutoCodigo.AsString := edtCodigo.Text;
   frmProduto.cdsProdutoNome.Value := edtDescricao.Text;
   frmProduto.cdsProdutoEan.Value := edtEan.Text;
   frmProduto.cdsProdutoUnidade.Value := cboUnidade.Text;
   frmProduto.cdsProdutoQuantidade.Value := StrToIntDef(edtQuantidade.Text, 0);
   frmProduto.cdsProdutoValor.Value := StrToFloatDef(edtValor.Text, 0);
   frmProduto.cdsProduto.Post;
+end;
+
+procedure TfrmCadProduto.LimparCamposDaTela;
+begin
+  edtCodigo.Clear;
+  edtDescricao.Clear;
+  edtEan.Clear;
+  cboUnidade.ItemIndex := -1;
+  edtQuantidade.Clear;
+  edtValor.Clear;
 end;
 
 end.
