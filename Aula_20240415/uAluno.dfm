@@ -20,7 +20,7 @@ object frmAluno: TfrmAluno
     Left = 0
     Top = 0
     Width = 916
-    Height = 415
+    Height = 385
     Align = alClient
     DataSource = DM.dsrAluno
     Font.Charset = DEFAULT_CHARSET
@@ -28,6 +28,7 @@ object frmAluno: TfrmAluno
     Font.Height = -12
     Font.Name = 'Segoe UI'
     Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     ParentFont = False
     TabOrder = 0
     TitleFont.Charset = DEFAULT_CHARSET
@@ -64,5 +65,45 @@ object frmAluno: TfrmAluno
         Width = 265
         Visible = True
       end>
+  end
+  object pnlBotoes: TPanel
+    Left = 0
+    Top = 385
+    Width = 916
+    Height = 30
+    Align = alBottom
+    TabOrder = 1
+    object btnExcluir: TBitBtn
+      Left = 808
+      Top = 1
+      Width = 107
+      Height = 28
+      Align = alRight
+      Caption = 'E&xcluir'
+      TabOrder = 2
+      OnClick = btnExcluirClick
+    end
+    object btnInserir: TBitBtn
+      Left = 594
+      Top = 1
+      Width = 107
+      Height = 28
+      Align = alRight
+      Caption = '&Inserir'
+      TabOrder = 0
+      OnClick = btnInserirClick
+      ExplicitTop = 6
+    end
+    object btnEditar: TBitBtn
+      Left = 701
+      Top = 1
+      Width = 107
+      Height = 28
+      Align = alRight
+      Caption = '&Editar'
+      TabOrder = 1
+      OnClick = btnEditarClick
+      ExplicitLeft = 808
+    end
   end
 end

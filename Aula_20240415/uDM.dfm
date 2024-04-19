@@ -7,7 +7,6 @@ object DM: TDM
       'User_Name=root'
       'Password=18071988'
       'DriverID=MySQL')
-    Connected = True
     LoginPrompt = False
     Left = 40
     Top = 24
