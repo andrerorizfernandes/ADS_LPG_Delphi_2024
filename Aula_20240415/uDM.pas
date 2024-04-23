@@ -22,6 +22,13 @@ type
     qryAlunocurso: TStringField;
     qryAlunoidusuario: TIntegerField;
     qryAlunousuario: TStringField;
+    qryUsuario: TFDQuery;
+    dsrUsuario: TDataSource;
+    qryUsuarioid: TFDAutoIncField;
+    qryUsuarioclientes: TStringField;
+    qryUsuariocpf: TStringField;
+    qryUsuarioidentidade: TStringField;
+    qrySQLTemporario: TFDQuery;
   private
     { Private declarations }
   public

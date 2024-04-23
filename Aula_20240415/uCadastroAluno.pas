@@ -19,6 +19,8 @@ type
     lblMatricula: TLabel;
     lblNome: TLabel;
     lblCurso: TLabel;
+    dblUsuario: TDBLookupComboBox;
+    lblUsuario: TLabel;
     procedure FormActivate(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -28,6 +30,7 @@ type
     procedure Cancelar;
     procedure ValidarDados;
     procedure GravarDados;
+    function MatriculaExiste(const pMatricula: string): Boolean;
     { Private declarations }
   public
     property Alterando: Boolean write FAlterando;
@@ -50,6 +53,12 @@ end;
 procedure TfrmCadastroAluno.btnGravarClick(Sender: TObject);
 begin
   ValidarDados;
+  if MatriculaExiste(dbeMatricula.Text) then
+  begin
+    Alerta('Matrícula já existe');
+    Exit;
+  end;
+
   GravarDados;
 end;
 
@@ -73,8 +82,28 @@ begin
   end;
 
   DM.qryAluno.Post;
+  DM.qryAluno.Refresh;
   Informacao('Operação concluída com sucesso');
   Close;
+end;
+
+function TfrmCadastroAluno.MatriculaExiste(const pMatricula: string): Boolean;
+begin
+  DM.qrySQLTemporario.Close;
+  try
+    if (DM.qryAluno.State = dsEdit) and
+       (DM.qryAlunomatricula.Value = DM.qryAlunomatricula.OldValue) then
+    Exit(False);
+
+    DM.qrySQLTemporario.SQL.Add('SELECT id FROM aluno WHERE matricula =:matricula');
+    DM.qrySQLTemporario.Params[0].Value := pMatricula;
+    DM.qrySQLTemporario.Open;
+
+    Result := (not DM.qrySQLTemporario.IsEmpty);
+  finally
+    DM.qrySQLTemporario.SQL.Clear;
+    DM.qrySQLTemporario.Close;
+  end;
 end;
 
 procedure TfrmCadastroAluno.PrepararAmbiente;
@@ -113,6 +142,13 @@ begin
   begin
     Alerta('Informe o curso');
     dbeCurso.SetFocus;
+    Abort;
+  end;
+
+  if dblUsuario.KeyValue = Null then
+  begin
+    Alerta('Selecione o usuário');
+    dblUsuario.SetFocus;
     Abort;
   end;
 end;

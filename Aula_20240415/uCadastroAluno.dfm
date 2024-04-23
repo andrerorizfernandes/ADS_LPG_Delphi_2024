@@ -43,6 +43,13 @@ object frmCadastroAluno: TfrmCadastroAluno
       Height = 15
       Caption = 'Curso'
     end
+    object lblUsuario: TLabel
+      Left = 342
+      Top = 58
+      Width = 40
+      Height = 15
+      Caption = 'Usu'#225'rio'
+    end
     object dbeMatricula: TDBEdit
       Left = 9
       Top = 24
@@ -69,6 +76,18 @@ object frmCadastroAluno: TfrmCadastroAluno
       DataField = 'curso'
       DataSource = DM.dsrAluno
       TabOrder = 2
+    end
+    object dblUsuario: TDBLookupComboBox
+      Left = 342
+      Top = 74
+      Width = 288
+      Height = 23
+      DataField = 'idusuario'
+      DataSource = DM.dsrAluno
+      KeyField = 'id'
+      ListField = 'clientes'
+      ListSource = DM.dsrUsuario
+      TabOrder = 3
     end
   end
   object pnlBotoes: TPanel

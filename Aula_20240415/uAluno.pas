@@ -19,6 +19,9 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnInserirClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
+    procedure dbgAlunoDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure dbgAlunoDblClick(Sender: TObject);
   private
     procedure AbrirEstrutura;
     procedure FecharEstrutura;
@@ -44,6 +47,7 @@ uses
 procedure TfrmAluno.AbrirEstrutura;
 begin
   DM.qryAluno.Open;
+  DM.qryUsuario.Open;
 end;
 
 procedure TfrmAluno.btnEditarClick(Sender: TObject);
@@ -73,6 +77,17 @@ begin
   end;
 end;
 
+procedure TfrmAluno.dbgAlunoDblClick(Sender: TObject);
+begin
+  CadastrarAluno(True);
+end;
+
+procedure TfrmAluno.dbgAlunoDrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  ZebrarGrid(dbgAluno, DM.qryAluno, Rect, Column, State);
+end;
+
 procedure TfrmAluno.ExcluirAluno;
 begin
   if DM.qryAluno.IsEmpty then
@@ -90,6 +105,7 @@ end;
 procedure TfrmAluno.FecharEstrutura;
 begin
   DM.qryAluno.Close;
+  DM.qryUsuario.Close;
 end;
 
 procedure TfrmAluno.FormClose(Sender: TObject; var Action: TCloseAction);

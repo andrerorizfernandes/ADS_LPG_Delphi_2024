@@ -36,6 +36,8 @@ object frmAluno: TfrmAluno
     TitleFont.Height = -12
     TitleFont.Name = 'Segoe UI'
     TitleFont.Style = [fsBold]
+    OnDrawColumnCell = dbgAlunoDrawColumnCell
+    OnDblClick = dbgAlunoDblClick
     Columns = <
       item
         Expanded = False
@@ -92,7 +94,6 @@ object frmAluno: TfrmAluno
       Caption = '&Inserir'
       TabOrder = 0
       OnClick = btnInserirClick
-      ExplicitTop = 6
     end
     object btnEditar: TBitBtn
       Left = 701
@@ -103,7 +104,6 @@ object frmAluno: TfrmAluno
       Caption = '&Editar'
       TabOrder = 1
       OnClick = btnEditarClick
-      ExplicitLeft = 808
     end
   end
 end
