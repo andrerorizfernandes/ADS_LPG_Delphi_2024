@@ -31,7 +31,17 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   CONSTRAINT `FK_aluno_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
--- Exportação de dados foi desmarcado.
+-- Copiando dados para a tabela ads.aluno: ~7 rows (aproximadamente)
+DELETE FROM `aluno`;
+INSERT INTO `aluno` (`id`, `matricula`, `nome`, `curso`, `idusuario`) VALUES
+	(1, '1010', 'teste', 'ads', 5),
+	(3, '30309', '5555', '555', 3),
+	(4, '3030', 'bom dia', 'ads', 4),
+	(5, '2020', '2020', '200', 5),
+	(6, '1010', 'gggg', '5405', 3),
+	(7, '6060', '54540', '54540', 3),
+	(8, '30301', 'lucas', 'tstst', 3),
+	(10, '101099', 'tyeyey', '54050', 3);
 
 -- Copiando estrutura para tabela ads.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -42,7 +52,13 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Exportação de dados foi desmarcado.
+-- Copiando dados para a tabela ads.usuario: ~3 rows (aproximadamente)
+DELETE FROM `usuario`;
+INSERT INTO `usuario` (`id`, `nome`, `cpf`, `identidade`) VALUES
+	(3, 'Administrador', '222', '3'),
+	(4, 'Supervisor', '333', '4'),
+	(5, 'Operario', '444', '5'),
+	(6, 'Teste', '555', '6');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
