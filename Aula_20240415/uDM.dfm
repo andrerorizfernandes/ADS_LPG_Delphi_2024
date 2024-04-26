@@ -20,6 +20,7 @@ object DM: TDM
     Top = 96
   end
   object qryAluno: TFDQuery
+    Active = True
     Connection = Conexao
     SQL.Strings = (
       'SELECT '
@@ -28,7 +29,7 @@ object DM: TDM
       '  a.nome, '
       '  a.curso,'
       '  a.idusuario,'
-      '  u.nome usuario'
+      '  u.nome as usuario'
       'FROM aluno a'
       'INNER JOIN usuario u ON u.id=a.idusuario'
       'ORDER BY a.curso, a.nome')
@@ -67,7 +68,7 @@ object DM: TDM
     object qryAlunousuario: TStringField
       AutoGenerateValue = arDefault
       FieldName = 'usuario'
-      Origin = 'clientes'
+      Origin = 'nome'
       ProviderFlags = []
       ReadOnly = True
       Size = 60
