@@ -28,10 +28,10 @@ object DM: TDM
       '  a.nome, '
       '  a.curso,'
       '  a.idusuario,'
-      '  u.clientes usuario'
+      '  u.nome usuario'
       'FROM aluno a'
       'INNER JOIN usuario u ON u.id=a.idusuario'
-      'ORDER BY curso, nome')
+      'ORDER BY a.curso, a.nome')
     Left = 176
     Top = 24
     object qryAlunoid: TFDAutoIncField
@@ -83,11 +83,11 @@ object DM: TDM
     SQL.Strings = (
       'SELECT           '
       '  u.id,          '
-      '  u.clientes,    '
+      '  u.nome,    '
       '  u.cpf,         '
       '  u.identidade   '
       'FROM usuario u   '
-      'ORDER BY clientes')
+      'ORDER BY nome')
     Left = 256
     Top = 24
     object qryUsuarioid: TFDAutoIncField
@@ -97,10 +97,10 @@ object DM: TDM
       ReadOnly = False
       IdentityInsert = True
     end
-    object qryUsuarioclientes: TStringField
+    object qryUsuarionome: TStringField
       AutoGenerateValue = arDefault
-      FieldName = 'clientes'
-      Origin = 'clientes'
+      FieldName = 'nome'
+      Origin = 'nome'
       Size = 60
     end
     object qryUsuariocpf: TStringField

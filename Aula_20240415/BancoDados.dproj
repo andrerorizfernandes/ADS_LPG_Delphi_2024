@@ -138,6 +138,10 @@
             <Form>frmCadastroAluno</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uPrincipal.pas">
+            <Form>frmPrincipal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

@@ -85,7 +85,7 @@ object frmCadastroAluno: TfrmCadastroAluno
       DataField = 'idusuario'
       DataSource = DM.dsrAluno
       KeyField = 'id'
-      ListField = 'clientes'
+      ListField = 'nome'
       ListSource = DM.dsrUsuario
       TabOrder = 3
     end

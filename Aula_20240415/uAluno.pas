@@ -32,9 +32,6 @@ type
     { Public declarations }
   end;
 
-var
-  frmAluno: TfrmAluno;
-
 implementation
 
 uses

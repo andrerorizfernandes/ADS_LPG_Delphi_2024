@@ -25,10 +25,10 @@ type
     qryUsuario: TFDQuery;
     dsrUsuario: TDataSource;
     qryUsuarioid: TFDAutoIncField;
-    qryUsuarioclientes: TStringField;
     qryUsuariocpf: TStringField;
     qryUsuarioidentidade: TStringField;
     qrySQLTemporario: TFDQuery;
+    qryUsuarionome: TStringField;
   private
     { Private declarations }
   public
