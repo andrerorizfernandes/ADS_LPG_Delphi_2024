@@ -25,22 +25,22 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   `matricula` varchar(10) NOT NULL,
   `nome` varchar(50) NOT NULL,
   `curso` varchar(30) NOT NULL,
-  `idusuario` int(11) DEFAULT NULL,
+  `idusuario` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_aluno_usuario` (`idusuario`),
   CONSTRAINT `FK_aluno_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- Exportação de dados foi desmarcado.
 
 -- Copiando estrutura para tabela ads.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `clientes` varchar(60) DEFAULT NULL,
+  `nome` varchar(60) DEFAULT NULL,
   `cpf` varchar(14) DEFAULT NULL,
   `identidade` varchar(18) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- Exportação de dados foi desmarcado.
 
