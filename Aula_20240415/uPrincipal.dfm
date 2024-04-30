@@ -933,9 +933,6 @@ object frmPrincipal: TfrmPrincipal
       item
         Width = 50
       end>
-    ExplicitLeft = 336
-    ExplicitTop = 360
-    ExplicitWidth = 0
   end
   object mmPrincipal: TMainMenu
     Left = 288
@@ -948,6 +945,7 @@ object frmPrincipal: TfrmPrincipal
       end
       object Usurio1: TMenuItem
         Caption = '&Usu'#225'rio'
+        OnClick = Usurio1Click
       end
     end
   end

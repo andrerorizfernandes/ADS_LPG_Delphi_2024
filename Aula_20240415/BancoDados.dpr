@@ -6,7 +6,9 @@ uses
   uDM in 'uDM.pas' {DM: TDataModule},
   uFuncoes in 'uFuncoes.pas',
   uCadastroAluno in 'uCadastroAluno.pas' {frmCadastroAluno},
-  uPrincipal in 'uPrincipal.pas' {frmPrincipal};
+  uPrincipal in 'uPrincipal.pas' {frmPrincipal},
+  uUsuario in 'uUsuario.pas' {frmUsuario},
+  uCadastroUsuario in 'uCadastroUsuario.pas' {frmCadastroUsuario};
 
 {$R *.res}
 

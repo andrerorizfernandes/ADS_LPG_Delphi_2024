@@ -18,9 +18,11 @@ type
     tmrPrincipal: TTimer;
     procedure tmrPrincipalTimer(Sender: TObject);
     procedure Aluno1Click(Sender: TObject);
+    procedure Usurio1Click(Sender: TObject);
   private
     procedure PreencherRodape;
     procedure ExibirAluno;
+    procedure ExibirUsuario;
     { Private declarations }
   public
     { Public declarations }
@@ -33,7 +35,7 @@ implementation
 
 {$R *.dfm}
 
-uses uAluno;
+uses uAluno, uUsuario;
 
 { TfrmPrincipal }
 
@@ -53,6 +55,17 @@ begin
   end;
 end;
 
+procedure TfrmPrincipal.ExibirUsuario;
+begin
+  var lUsuario: TfrmUsuario;
+  lUsuario := TfrmUsuario.Create(nil);
+  try
+    lUsuario.ShowModal;
+  finally
+    lUsuario.Free;
+  end;
+end;
+
 procedure TfrmPrincipal.PreencherRodape;
 begin
   stbRodape.Panels[0].Text := DateToStr(Date);
@@ -63,6 +76,11 @@ end;
 procedure TfrmPrincipal.tmrPrincipalTimer(Sender: TObject);
 begin
   PreencherRodape;
+end;
+
+procedure TfrmPrincipal.Usurio1Click(Sender: TObject);
+begin
+  ExibirUsuario;
 end;
 
 end.

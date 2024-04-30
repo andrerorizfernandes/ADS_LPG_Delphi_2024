@@ -111,12 +111,12 @@ begin
   if FAlterando then
     begin
       DM.qryAluno.Edit;
-      Caption := 'Aluno [Inserindo]';
+      Caption := 'Aluno [Editando]';
     end
   else
     begin
       DM.qryAluno.Append;
-      Caption := 'Aluno [Editando]';
+      Caption := 'Aluno [Inserindo]';
     end;
 
   dbeMatricula.SetFocus;
