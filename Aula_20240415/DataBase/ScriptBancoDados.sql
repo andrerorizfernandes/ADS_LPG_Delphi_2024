@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   `idusuario` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_aluno_usuario` (`idusuario`),
-  CONSTRAINT `FK_aluno_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  CONSTRAINT `FK_aluno_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela ads.aluno: ~8 rows (aproximadamente)
+-- Copiando dados para a tabela ads.aluno: ~10 rows (aproximadamente)
 INSERT IGNORE INTO `aluno` (`id`, `matricula`, `nome`, `curso`, `idusuario`) VALUES
 	(1, '1010', 'teste', 'ads', 5),
 	(3, '30309', '5555', '555', 3),
@@ -42,7 +42,9 @@ INSERT IGNORE INTO `aluno` (`id`, `matricula`, `nome`, `curso`, `idusuario`) VAL
 	(6, '1010', 'gggg', '5405', 3),
 	(7, '6060', '54540', '54540', 3),
 	(8, '30301', 'lucas', 'tstst', 3),
-	(10, '101099', 'tyeyey', '54050', 3);
+	(10, '101099', 'tyeyey', '54050', 3),
+	(11, '66666', 'dfksjsd', 'dfsd', 3),
+	(12, '55050', 'uuuuu', 'lllll', 3);
 
 -- Copiando estrutura para tabela ads.usuario
 DROP TABLE IF EXISTS `usuario`;
@@ -54,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela ads.usuario: ~4 rows (aproximadamente)
+-- Copiando dados para a tabela ads.usuario: ~3 rows (aproximadamente)
 INSERT IGNORE INTO `usuario` (`id`, `nome`, `cpf`, `identidade`) VALUES
 	(3, 'Administrador', '222', '3'),
 	(4, 'Supervisor', '333', '4'),
