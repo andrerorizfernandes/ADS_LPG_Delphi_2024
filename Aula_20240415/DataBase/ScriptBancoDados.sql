@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `aluno` (
   PRIMARY KEY (`id`),
   KEY `FK_aluno_usuario` (`idusuario`),
   CONSTRAINT `FK_aluno_usuario` FOREIGN KEY (`idusuario`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- Copiando dados para a tabela ads.aluno: ~10 rows (aproximadamente)
 INSERT IGNORE INTO `aluno` (`id`, `matricula`, `nome`, `curso`, `idusuario`) VALUES
@@ -46,6 +46,131 @@ INSERT IGNORE INTO `aluno` (`id`, `matricula`, `nome`, `curso`, `idusuario`) VAL
 	(11, '66666', 'dfksjsd', 'dfsd', 3),
 	(12, '55050', 'uuuuu', 'lllll', 3);
 
+-- Copiando estrutura para tabela ads.banda
+DROP TABLE IF EXISTS `banda`;
+CREATE TABLE IF NOT EXISTS `banda` (
+  `CodBanda` int(11) NOT NULL AUTO_INCREMENT,
+  `Descricao` varchar(100) NOT NULL,
+  `Cidade` varchar(50) NOT NULL,
+  `Uf` varchar(2) NOT NULL,
+  `Vocalista` varchar(60) NOT NULL,
+  PRIMARY KEY (`CodBanda`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.banda: ~2 rows (aproximadamente)
+INSERT IGNORE INTO `banda` (`CodBanda`, `Descricao`, `Cidade`, `Uf`, `Vocalista`) VALUES
+	(3, 'capital inicial', 'Brasilia', 'DF', 'Dinho');
+
+-- Copiando estrutura para tabela ads.carro
+DROP TABLE IF EXISTS `carro`;
+CREATE TABLE IF NOT EXISTS `carro` (
+  `codcarro` int(11) NOT NULL,
+  `nome` varchar(100) NOT NULL,
+  `marca` varchar(60) NOT NULL,
+  `modelo` varchar(50) NOT NULL,
+  `qtdeixos` int(11) NOT NULL,
+  PRIMARY KEY (`codcarro`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.carro: ~2 rows (aproximadamente)
+INSERT IGNORE INTO `carro` (`codcarro`, `nome`, `marca`, `modelo`, `qtdeixos`) VALUES
+	(1, 'Corolla', 'Toyota', 'Altis', 6);
+
+-- Copiando estrutura para tabela ads.cliente
+DROP TABLE IF EXISTS `cliente`;
+CREATE TABLE IF NOT EXISTS `cliente` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) DEFAULT NULL,
+  `cpf` varchar(11) DEFAULT NULL,
+  `identidade` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.cliente: ~0 rows (aproximadamente)
+
+-- Copiando estrutura para tabela ads.clube
+DROP TABLE IF EXISTS `clube`;
+CREATE TABLE IF NOT EXISTS `clube` (
+  `codclube` int(11) NOT NULL AUTO_INCREMENT,
+  `descricao` varchar(50) NOT NULL,
+  `fundacao` date NOT NULL,
+  `mascote` varchar(30) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
+  PRIMARY KEY (`codclube`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.clube: ~4 rows (aproximadamente)
+INSERT IGNORE INTO `clube` (`codclube`, `descricao`, `fundacao`, `mascote`, `telefone`) VALUES
+	(1, 'Cruzeiro', '1921-01-03', 'Raposa', '32988026843'),
+	(3, 'juvelino', '2016-09-02', 'fio', 'odim'),
+	(6, 'xxxx', '1999-01-01', 'rty', 'wweee'),
+	(7, 'andre', '1988-07-18', 'raposao', '3456');
+
+-- Copiando estrutura para tabela ads.colaborador
+DROP TABLE IF EXISTS `colaborador`;
+CREATE TABLE IF NOT EXISTS `colaborador` (
+  `codcolaborador` varchar(10) NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `cpf` varchar(11) NOT NULL,
+  `idade` int(11) NOT NULL,
+  `peso` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`codcolaborador`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.colaborador: ~0 rows (aproximadamente)
+
+-- Copiando estrutura para tabela ads.jogadores
+DROP TABLE IF EXISTS `jogadores`;
+CREATE TABLE IF NOT EXISTS `jogadores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) NOT NULL,
+  `cpf` varchar(11) NOT NULL,
+  `posicao` varchar(45) NOT NULL,
+  `sexo` varchar(45) NOT NULL,
+  `idade` int(11) NOT NULL,
+  `peso` decimal(10,0) NOT NULL,
+  `clube` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.jogadores: ~0 rows (aproximadamente)
+
+-- Copiando estrutura para tabela ads.pessoa
+DROP TABLE IF EXISTS `pessoa`;
+CREATE TABLE IF NOT EXISTS `pessoa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(25) NOT NULL,
+  `nascimento` date NOT NULL,
+  `endereco` varchar(99) NOT NULL,
+  `telefone` varchar(15) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.pessoa: ~4 rows (aproximadamente)
+INSERT IGNORE INTO `pessoa` (`id`, `nome`, `nascimento`, `endereco`, `telefone`) VALUES
+	(2, 'Beatriz Souza ***', '1941-08-10', 'Rua Botoes de Ouro, 968', '(13) 5036-4135'),
+	(3, 'Murilo Ferreira', '1986-09-20', 'Rua Juca LÃºcio, 1973', '(34) 3925-7363'),
+	(5, 'Renan Azevedo', '1997-01-06', 'Rua JosÃ© Casemiro Correia', '(41) 9710-4845'),
+	(6, 'Giovana Santos', '1991-01-02', 'Rodovia Washington Luiz, 70', '(83) 8607-6604');
+
+-- Copiando estrutura para tabela ads.produto
+DROP TABLE IF EXISTS `produto`;
+CREATE TABLE IF NOT EXISTS `produto` (
+  `codigo` varchar(6) NOT NULL DEFAULT '',
+  `descricao` varchar(50) NOT NULL DEFAULT '',
+  `cor` varchar(20) DEFAULT '',
+  `marca` varchar(30) DEFAULT '',
+  `quantidade` int(11) NOT NULL DEFAULT '0',
+  `valor` float(12,2) DEFAULT NULL,
+  PRIMARY KEY (`codigo`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+-- Copiando dados para a tabela ads.produto: 1 rows
+/*!40000 ALTER TABLE `produto` DISABLE KEYS */;
+INSERT IGNORE INTO `produto` (`codigo`, `descricao`, `cor`, `marca`, `quantidade`, `valor`) VALUES
+	('JKL1', 'mercedez', 'ff', 'ff', 5, 6.30);
+/*!40000 ALTER TABLE `produto` ENABLE KEYS */;
+
 -- Copiando estrutura para tabela ads.usuario
 DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -53,15 +178,35 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `nome` varchar(60) DEFAULT NULL,
   `cpf` varchar(14) DEFAULT NULL,
   `identidade` varchar(18) DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+  `excluido` char(1) DEFAULT 'N',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `cpf` (`cpf`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela ads.usuario: ~3 rows (aproximadamente)
-INSERT IGNORE INTO `usuario` (`id`, `nome`, `cpf`, `identidade`) VALUES
-	(3, 'Administrador', '222', '3'),
-	(4, 'Supervisor', '333', '4'),
-	(5, 'Operario', '444', '5'),
-	(6, 'Teste', '555', '6');
+-- Copiando dados para a tabela ads.usuario: ~5 rows (aproximadamente)
+INSERT IGNORE INTO `usuario` (`id`, `nome`, `cpf`, `identidade`, `excluido`) VALUES
+	(3, 'Supervisor', '25300019011', '3', 'S'),
+	(4, 'Administrador', '41688040030', '4', 'N'),
+	(5, 'Cliente', '52913745008', '5', 'N'),
+	(8, 'jfhsdkhf', '08327102613', '540', 'S'),
+	(9, 'teste final', '09829984060', '5408', 'N'),
+	(12, '845405', '82479709027', '555', 'N');
+
+-- Copiando estrutura para tabela ads.veiculo
+DROP TABLE IF EXISTS `veiculo`;
+CREATE TABLE IF NOT EXISTS `veiculo` (
+  `codCarro` int(11) NOT NULL,
+  `Placa` varchar(7) NOT NULL,
+  `Descricao` varchar(50) DEFAULT NULL,
+  `Cor` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`codCarro`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.veiculo: 1 rows
+/*!40000 ALTER TABLE `veiculo` DISABLE KEYS */;
+INSERT IGNORE INTO `veiculo` (`codCarro`, `Placa`, `Descricao`, `Cor`) VALUES
+	(1, 'fdgdgd', 'dsds', 'ss');
+/*!40000 ALTER TABLE `veiculo` ENABLE KEYS */;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

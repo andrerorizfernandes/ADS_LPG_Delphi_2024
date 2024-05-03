@@ -20,7 +20,6 @@ object DM: TDM
     Top = 96
   end
   object qryAluno: TFDQuery
-    Active = True
     Connection = Conexao
     SQL.Strings = (
       'SELECT '
@@ -31,7 +30,7 @@ object DM: TDM
       '  a.idusuario,'
       '  u.nome as usuario'
       'FROM aluno a'
-      'INNER JOIN usuario u ON u.id=a.idusuario'
+      'INNER JOIN usuario u ON u.id=a.idusuario and u.excluido = '#39'N'#39
       'ORDER BY a.curso, a.nome')
     Left = 176
     Top = 24
@@ -86,8 +85,10 @@ object DM: TDM
       '  u.id,          '
       '  u.nome,    '
       '  u.cpf,         '
-      '  u.identidade   '
-      'FROM usuario u   '
+      '  u.identidade,'
+      '  u.excluido  '
+      'FROM usuario u  '
+      'Where u.excluido = '#39'N'#39' '
       'ORDER BY nome')
     Left = 256
     Top = 24
@@ -108,6 +109,7 @@ object DM: TDM
       AutoGenerateValue = arDefault
       FieldName = 'cpf'
       Origin = 'cpf'
+      EditMask = '999\.999\.999\-99;0;_'
       Size = 14
     end
     object qryUsuarioidentidade: TStringField
@@ -115,6 +117,13 @@ object DM: TDM
       FieldName = 'identidade'
       Origin = 'identidade'
       Size = 18
+    end
+    object qryUsuarioexcluido: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'excluido'
+      Origin = 'excluido'
+      FixedChar = True
+      Size = 1
     end
   end
   object dsrUsuario: TDataSource

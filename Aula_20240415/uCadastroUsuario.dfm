@@ -4,8 +4,8 @@ object frmCadastroUsuario: TfrmCadastroUsuario
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'frmCadastroUsuario'
-  ClientHeight = 89
-  ClientWidth = 889
+  ClientHeight = 137
+  ClientWidth = 428
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,14 +18,12 @@ object frmCadastroUsuario: TfrmCadastroUsuario
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 889
-    Height = 58
+    Width = 428
+    Height = 106
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 40
-    ExplicitTop = 72
-    ExplicitWidth = 916
-    ExplicitHeight = 385
+    ExplicitWidth = 889
+    ExplicitHeight = 58
     object Nome: TLabel
       Left = 9
       Top = 8
@@ -34,15 +32,15 @@ object frmCadastroUsuario: TfrmCadastroUsuario
       Caption = 'Nome'
     end
     object CPF: TLabel
-      Left = 471
-      Top = 8
+      Left = 9
+      Top = 56
       Width = 21
       Height = 15
       Caption = 'CPF'
     end
     object identidade: TLabel
-      Left = 647
-      Top = 8
+      Left = 185
+      Top = 56
       Width = 56
       Height = 15
       Caption = 'Identidade'
@@ -50,42 +48,45 @@ object frmCadastroUsuario: TfrmCadastroUsuario
     object dbeNome: TDBEdit
       Left = 9
       Top = 24
-      Width = 456
+      Width = 408
       Height = 23
       DataField = 'nome'
       DataSource = DM.dsrUsuario
       TabOrder = 0
     end
     object dbeCPF: TDBEdit
-      Left = 471
-      Top = 24
+      Left = 9
+      Top = 72
       Width = 170
       Height = 23
       DataField = 'cpf'
       DataSource = DM.dsrUsuario
+      MaxLength = 11
       TabOrder = 1
+      OnKeyPress = dbeCPFKeyPress
     end
     object dbeIdentidade: TDBEdit
-      Left = 647
-      Top = 24
+      Left = 185
+      Top = 72
       Width = 232
       Height = 23
       DataField = 'identidade'
       DataSource = DM.dsrUsuario
       TabOrder = 2
+      OnKeyPress = dbeIdentidadeKeyPress
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 58
-    Width = 889
+    Top = 106
+    Width = 428
     Height = 31
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 170
-    ExplicitWidth = 900
+    ExplicitTop = 58
+    ExplicitWidth = 889
     object btnCancelar: TButton
-      Left = 786
+      Left = 325
       Top = 1
       Width = 102
       Height = 29
@@ -93,10 +94,10 @@ object frmCadastroUsuario: TfrmCadastroUsuario
       Caption = 'Cancelar'
       TabOrder = 0
       OnClick = btnCancelarClick
-      ExplicitLeft = 824
+      ExplicitLeft = 786
     end
     object btnGravar: TButton
-      Left = 684
+      Left = 223
       Top = 1
       Width = 102
       Height = 29
@@ -104,7 +105,7 @@ object frmCadastroUsuario: TfrmCadastroUsuario
       Caption = 'Gravar'
       TabOrder = 1
       OnClick = btnGravarClick
-      ExplicitLeft = 749
+      ExplicitLeft = 684
     end
   end
 end

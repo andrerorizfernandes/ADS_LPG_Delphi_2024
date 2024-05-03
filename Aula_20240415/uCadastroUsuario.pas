@@ -22,6 +22,8 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure dbeCPFKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeIdentidadeKeyPress(Sender: TObject; var Key: Char);
   private
     FAlterando: Boolean;
     procedure PrepararAmbiente;
@@ -35,6 +37,7 @@ type
   end;
 
 implementation
+
 uses
   uDM, uFuncoes, Data.DB;
 
@@ -50,13 +53,31 @@ end;
 procedure TfrmCadastroUsuario.btnGravarClick(Sender: TObject);
 begin
   ValidarDados;
-  GravarDados;
+
+  try
+    GravarDados;
+  except
+    on E: Exception do
+      if E.Message.Contains('Duplicate entry') then
+        Erro('O cpf cadastrado já existe');
+    end;
 end;
 
 procedure TfrmCadastroUsuario.Cancelar;
 begin
   DM.qryUsuario.Cancel;
   Close;
+end;
+
+procedure TfrmCadastroUsuario.dbeCPFKeyPress(Sender: TObject; var Key: Char);
+begin
+  CaracterValido(SomenteNumeros, Key);
+end;
+
+procedure TfrmCadastroUsuario.dbeIdentidadeKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  CaracterValido(SomenteNumeros, Key);
 end;
 
 procedure TfrmCadastroUsuario.FormActivate(Sender: TObject);
@@ -96,26 +117,32 @@ end;
 procedure TfrmCadastroUsuario.ValidarDados;
 begin
   if dbeNome.Text = EmptyStr then
-    begin
-      Alerta('Informe o nome');
-      dbeNome.SetFocus;
-      Abort;
-    end;
+  begin
+    Alerta('Informe o nome');
+    dbeNome.SetFocus;
+    Abort;
+  end;
 
-    if dbeCPF.Text = EmptyStr then
-      begin
-        Alerta('Informe o CPF');
-        dbeCPF.SetFocus;
-        Abort;
-      end;
+  if dbeCPF.Text = EmptyStr then
+  begin
+    Alerta('Informe o CPF');
+    dbeCPF.SetFocus;
+    Abort;
+  end;
 
-    if dbeIdentidade.Text = EmptyStr then
-      begin
-        Alerta('Informe a Identidade');
-        dbeIdentidade.SetFocus;
-        Abort;
-      end;
+  if dbeIdentidade.Text = EmptyStr then
+  begin
+    Alerta('Informe a Identidade');
+    dbeIdentidade.SetFocus;
+    Abort;
+  end;
 
+  if (not CpfValido(dbeCPF.Field.Value)) then
+  begin
+    Alerta('O cpf informado é inválido.');
+    dbeCPF.SetFocus;
+    Abort;
+  end;
 
 end;
 

@@ -14,6 +14,7 @@ type
     btnExcluir: TBitBtn;
     btnInserir: TBitBtn;
     btnEditar: TBitBtn;
+    pnlQuantidadeAluno: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnExcluirClick(Sender: TObject);
@@ -22,11 +23,13 @@ type
     procedure dbgAlunoDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure dbgAlunoDblClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     procedure AbrirEstrutura;
     procedure FecharEstrutura;
     procedure ExcluirAluno;
     procedure CadastrarAluno(const pEditar: Boolean);
+    procedure AtualizarQuantidadeAluno;
     { Private declarations }
   public
     { Public declarations }
@@ -47,6 +50,11 @@ begin
   DM.qryUsuario.Open;
 end;
 
+procedure TfrmAluno.AtualizarQuantidadeAluno;
+begin
+  pnlQuantidadeAluno.Caption := IntToStr(DM.qryAluno.RecordCount) + ' Registros ';
+end;
+
 procedure TfrmAluno.btnEditarClick(Sender: TObject);
 begin
   CadastrarAluno(True);
@@ -55,11 +63,13 @@ end;
 procedure TfrmAluno.btnExcluirClick(Sender: TObject);
 begin
   ExcluirAluno;
+  AtualizarQuantidadeAluno;
 end;
 
 procedure TfrmAluno.btnInserirClick(Sender: TObject);
 begin
   CadastrarAluno(False);
+  AtualizarQuantidadeAluno;
 end;
 
 procedure TfrmAluno.CadastrarAluno(const pEditar: Boolean);
@@ -103,6 +113,11 @@ procedure TfrmAluno.FecharEstrutura;
 begin
   DM.qryAluno.Close;
   DM.qryUsuario.Close;
+end;
+
+procedure TfrmAluno.FormActivate(Sender: TObject);
+begin
+  AtualizarQuantidadeAluno;
 end;
 
 procedure TfrmAluno.FormClose(Sender: TObject; var Action: TCloseAction);

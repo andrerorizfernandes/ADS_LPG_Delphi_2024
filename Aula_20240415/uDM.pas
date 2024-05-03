@@ -29,6 +29,7 @@ type
     qrySQLTemporario: TFDQuery;
     qryUsuarionome: TStringField;
     qryAlunousuario: TStringField;
+    qryUsuarioexcluido: TStringField;
   private
     { Private declarations }
   public

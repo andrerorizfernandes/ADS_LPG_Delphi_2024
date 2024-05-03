@@ -14,6 +14,7 @@ type
     btnExcluir: TButton;
     btnInserir: TButton;
     btnEditar: TButton;
+    pnlQuantidadeUsuario: TPanel;
     procedure btnInserirClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
@@ -22,12 +23,14 @@ type
     procedure dbgUsuarioDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure dbgUsuarioDblClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     procedure CadastrarUsuario(const pEditar : Boolean);
     procedure AbrirEstrutura;
     procedure FecharEstrutura;
     procedure ExcluirUsuario;
     function VerificarDados(const pCodigoUsuario: integer): Boolean;
+    procedure AtualizarQuantidadeRegistros;
     { Private declarations }
   public
     { Public declarations }
@@ -39,14 +42,17 @@ uses
 
 {$R *.dfm}
 
-{ TfrmUsuario }
-
 
 { TfrmUsuario }
 
 procedure TfrmUsuario.AbrirEstrutura;
 begin
   DM.qryUsuario.Open;
+end;
+
+procedure TfrmUsuario.AtualizarQuantidadeRegistros;
+begin
+  pnlQuantidadeUsuario.Caption := IntToStr(DM.qryUsuario.RecordCount) + ' Registros ';
 end;
 
 procedure TfrmUsuario.btnEditarClick(Sender: TObject);
@@ -56,17 +62,14 @@ end;
 
 procedure TfrmUsuario.btnExcluirClick(Sender: TObject);
 begin
-  if VerificarDados(DM.qryUsuarioid.Value) then
-  begin
-    Alerta('Não é possivel remover o usuário ' + DM.qryUsuarionome.Value);
-    Exit;
-  end;
   ExcluirUsuario;
+  AtualizarQuantidadeRegistros;
 end;
 
 procedure TfrmUsuario.btnInserirClick(Sender: TObject);
 begin
   CadastrarUsuario(False);
+  AtualizarQuantidadeRegistros;
 end;
 
 procedure TfrmUsuario.CadastrarUsuario(const pEditar: Boolean);
@@ -105,12 +108,21 @@ begin
   if (not Pergunta('Confirma a exclusão do usuário?')) then
     Exit;
 
-  DM.qryUsuario.Delete;
+  DM.qryUsuario.Edit;
+  DM.qryUsuarioexcluido.Value := 'S';
+  DM.qryUsuario.Post;
+
+  DM.qryUsuario.Refresh;
 end;
 
 procedure TfrmUsuario.FecharEstrutura;
 begin
   DM.qryUsuario.Close;
+end;
+
+procedure TfrmUsuario.FormActivate(Sender: TObject);
+begin
+  AtualizarQuantidadeRegistros;
 end;
 
 procedure TfrmUsuario.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -126,12 +138,7 @@ end;
 function TfrmUsuario.VerificarDados(const pCodigoUsuario: integer): Boolean;
 begin
   DM.qrySQLTemporario.Close;
-
   try
-    if (DM.qryUsuario.State = dsEdit) and
-       (DM.qryUsuarioId.Value = DM.qryUsuarioId.OldValue) then
-    Exit(False);
-
     DM.qrySQLTemporario.SQL.Add('SELECT id FROM aluno WHERE idusuario =:idusuario');
     DM.qrySQLTemporario.Params[0].Value := pCodigoUsuario;
     DM.qrySQLTemporario.Open;
