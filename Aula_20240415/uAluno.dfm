@@ -19,9 +19,9 @@ object frmAluno: TfrmAluno
   TextHeight = 15
   object dbgAluno: TDBGrid
     Left = 0
-    Top = 0
+    Top = 63
     Width = 916
-    Height = 364
+    Height = 301
     Align = alClient
     DataSource = DM.dsrAluno
     Font.Charset = DEFAULT_CHARSET
@@ -122,6 +122,70 @@ object frmAluno: TfrmAluno
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 363
+  end
+  object gbxFiltroAluno: TGroupBox
+    Left = 0
+    Top = 0
+    Width = 916
+    Height = 63
+    Align = alTop
+    Caption = ' Filtrar '
+    TabOrder = 3
+    object btnFiltrar: TSpeedButton
+      Left = 848
+      Top = 33
+      Width = 58
+      Height = 23
+      Caption = '&Filtrar'
+      Flat = True
+      OnClick = btnFiltrarClick
+    end
+    object lblCampo: TLabel
+      Left = 9
+      Top = 16
+      Width = 39
+      Height = 15
+      Caption = 'Campo'
+    end
+    object lblOperacao: TLabel
+      Left = 184
+      Top = 16
+      Width = 51
+      Height = 15
+      Caption = 'Opera'#231#227'o'
+    end
+    object lblValor: TLabel
+      Left = 359
+      Top = 16
+      Width = 26
+      Height = 15
+      Caption = 'Valor'
+    end
+    object cboCampo: TComboBox
+      Left = 9
+      Top = 33
+      Width = 170
+      Height = 23
+      Style = csDropDownList
+      TabOrder = 0
+    end
+    object cboOperacao: TComboBox
+      Left = 184
+      Top = 33
+      Width = 170
+      Height = 23
+      Style = csDropDownList
+      TabOrder = 1
+    end
+    object edtValor: TEdit
+      Left = 359
+      Top = 33
+      Width = 483
+      Height = 23
+      Hint = 'Digite o valor a ser pesquisado'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 2
+    end
   end
 end

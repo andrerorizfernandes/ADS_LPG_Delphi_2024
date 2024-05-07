@@ -20,6 +20,7 @@ object DM: TDM
     Top = 96
   end
   object qryAluno: TFDQuery
+    FilterOptions = [foCaseInsensitive]
     Connection = Conexao
     SQL.Strings = (
       'SELECT '
@@ -39,6 +40,7 @@ object DM: TDM
       Origin = 'id'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       ReadOnly = False
+      Visible = False
       IdentityInsert = True
     end
     object qryAlunomatricula: TStringField
@@ -63,6 +65,7 @@ object DM: TDM
       AutoGenerateValue = arDefault
       FieldName = 'idusuario'
       Origin = 'idusuario'
+      Visible = False
     end
     object qryAlunousuario: TStringField
       AutoGenerateValue = arDefault
