@@ -33,15 +33,12 @@ type
     procedure dbgAlunoDblClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure btnFiltrarClick(Sender: TObject);
+    procedure edtValorChange(Sender: TObject);
   private
     procedure AbrirEstrutura;
     procedure FecharEstrutura;
     procedure ExcluirAluno;
     procedure CadastrarAluno(const pEditar: Boolean);
-    procedure AtualizarQuantidadeAluno;
-    procedure PovoarCampos;
-    procedure PovoarOperacoes;
-    procedure ValidarOpcoesFiltro;
     procedure FiltrarAluno;
     { Private declarations }
   public
@@ -63,11 +60,6 @@ begin
   DM.qryUsuario.Open;
 end;
 
-procedure TfrmAluno.AtualizarQuantidadeAluno;
-begin
-  pnlQuantidadeAluno.Caption := IntToStr(DM.qryAluno.RecordCount) + ' Registros ';
-end;
-
 procedure TfrmAluno.btnEditarClick(Sender: TObject);
 begin
   CadastrarAluno(True);
@@ -76,20 +68,18 @@ end;
 procedure TfrmAluno.btnExcluirClick(Sender: TObject);
 begin
   ExcluirAluno;
-  AtualizarQuantidadeAluno;
+  AtualizarQuantidade(pnlQuantidadeAluno, DM.qryAluno);
 end;
 
 procedure TfrmAluno.btnFiltrarClick(Sender: TObject);
 begin
-  ValidarOpcoesFiltro;
   FiltrarAluno;
-  AtualizarQuantidadeAluno;
 end;
 
 procedure TfrmAluno.btnInserirClick(Sender: TObject);
 begin
   CadastrarAluno(False);
-  AtualizarQuantidadeAluno;
+  AtualizarQuantidade(pnlQuantidadeAluno, DM.qryAluno);
 end;
 
 procedure TfrmAluno.CadastrarAluno(const pEditar: Boolean);
@@ -115,6 +105,11 @@ begin
   ZebrarGrid(dbgAluno, DM.qryAluno, Rect, Column, State);
 end;
 
+procedure TfrmAluno.edtValorChange(Sender: TObject);
+begin
+  FiltrarAluno;
+end;
+
 procedure TfrmAluno.ExcluirAluno;
 begin
   if DM.qryAluno.IsEmpty then
@@ -138,26 +133,15 @@ end;
 
 procedure TfrmAluno.FiltrarAluno;
 begin
-  var lFiltro: string;
-  lFiltro := EmptyStr;
-  case cboOperacao.ItemIndex of
-    0: lFiltro := cboCampo.Text + '=' + QuotedStr(edtValor.Text);
-    1: lFiltro := cboCampo.Text + '<>' + QuotedStr(edtValor.Text);
-    2: lFiltro := '';
-    3: lFiltro := '';
-    4: lFiltro := '';
-  end;
-  DM.qryAluno.Filter := lFiltro;
-  DM.qryAluno.Filtered := False;
-  if (Trim(edtValor.Text) <> EmptyStr) then
-    DM.qryAluno.Filtered := True;
+  FiltrarDados(cboCampo, cboOperacao, DM.qryAluno, edtValor.Text);
+  AtualizarQuantidade(pnlQuantidadeAluno, DM.qryAluno);
 end;
 
 procedure TfrmAluno.FormActivate(Sender: TObject);
 begin
-  PovoarCampos;
-  PovoarOperacoes;
-  AtualizarQuantidadeAluno;
+  PovoarCampos(cboCampo, DM.qryAluno);
+  PovoarOperacoes(cboOperacao);
+  AtualizarQuantidade(pnlQuantidadeAluno, DM.qryAluno);
 end;
 
 procedure TfrmAluno.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -168,42 +152,6 @@ end;
 procedure TfrmAluno.FormCreate(Sender: TObject);
 begin
   AbrirEstrutura;
-end;
-
-procedure TfrmAluno.PovoarCampos;
-begin
-  cboCampo.Items.Clear;
-  var I: integer;
-  for I := 0 to DM.qryAluno.Fields.Count - 1 do
-    if DM.qryAluno.Fields[I].Visible then
-      cboCampo.Items.Add(DM.qryAluno.Fields[I].FieldName);
-end;
-
-procedure TfrmAluno.PovoarOperacoes;
-begin
-  cboOperacao.Items.Clear;
-  cboOperacao.Items.Add('Igual');
-  cboOperacao.Items.Add('Diferente');
-  cboOperacao.Items.Add('Iniciado por');
-  cboOperacao.Items.Add('Finalizado por');
-  cboOperacao.Items.Add('Que contenha');
-end;
-
-procedure TfrmAluno.ValidarOpcoesFiltro;
-begin
-  if cboCampo.ItemIndex = -1 then
-  begin
-    Alerta('Selecione o campo');
-    cboCampo.SetFocus;
-    Abort;
-  end;
-
-  if cboOperacao.ItemIndex = -1 then
-  begin
-    Alerta('Selecione a operação');
-    cboOperacao.SetFocus;
-    Abort;
-  end;
 end;
 
 end.

@@ -3,7 +3,8 @@ unit uFuncoes;
 interface
 
 uses
-  System.Types, Vcl.DBGrids, Vcl.Grids;
+  System.Types, Vcl.DBGrids, Vcl.Grids, Vcl.StdCtrls, FireDAC.Comp.Client,
+  Vcl.ExtCtrls;
 
 const
   NOMESISTEMA = 'Banco de dados';
@@ -20,11 +21,16 @@ const
   function Pergunta(Pergunta: string): Boolean;
   procedure CaracterValido(Tipo : integer; var key : Char);
   function CpfValido(numero : string) : boolean;
+  procedure AtualizarQuantidade(pPainel: TPanel; pQuery: TFDQuery);
+  procedure PovoarCampos(pCampo: TComboBox; pQuery: TFDQuery);
+  procedure PovoarOperacoes(pOperacao: TComboBox);
+  procedure FiltrarDados(pCampo, pOperacao: TComboBox; pQuery: TFDQuery; pValor: string);
+
 
 implementation
 
 uses
-  Vcl.Forms, Winapi.Windows, FireDAC.Comp.Client, Vcl.Graphics,
+  Vcl.Forms, Winapi.Windows, Vcl.Graphics,
   System.SysUtils;
 
 procedure Alerta(Mensagem: string);
@@ -172,6 +178,62 @@ begin
 
   //se chegar até aqui o cpf é valido
   result:=true;
+end;
+
+procedure AtualizarQuantidade(pPainel: TPanel; pQuery: TFDQuery);
+begin
+  const MENSAGEM = '%d Registros ';
+  pPainel.Caption := Format(MENSAGEM, [pQuery.RecordCount]);
+end;
+
+procedure PovoarCampos(pCampo: TComboBox; pQuery: TFDQuery);
+begin
+  pCampo.Items.Clear;
+  var I: integer;
+  for I := 0 to pQuery.Fields.Count - 1 do
+    if pQuery.Fields[I].Visible then
+      pCampo.Items.Add(pQuery.Fields[I].FieldName);
+end;
+
+procedure PovoarOperacoes(pOperacao: TComboBox);
+begin
+  pOperacao.Items.Clear;
+  pOperacao.Items.Add('Igual');
+  pOperacao.Items.Add('Diferente');
+  pOperacao.Items.Add('Iniciado por');
+  pOperacao.Items.Add('Finalizado por');
+  pOperacao.Items.Add('Que contenha');
+end;
+
+procedure FiltrarDados(pCampo, pOperacao: TComboBox; pQuery: TFDQuery; pValor: string);
+begin
+  if pCampo.ItemIndex = -1 then
+  begin
+    Alerta('Selecione o campo');
+    pCampo.SetFocus;
+    Abort;
+  end;
+
+  if pOperacao.ItemIndex = -1 then
+  begin
+    Alerta('Selecione a operação');
+    pOperacao.SetFocus;
+    Abort;
+  end;
+
+  var lFiltro: string;
+  lFiltro := EmptyStr;
+  case pOperacao.ItemIndex of
+    0: lFiltro := pCampo.Text + '=' + QuotedStr(pValor);
+    1: lFiltro := pCampo.Text + '<>' + QuotedStr(pValor);
+    2: lFiltro := pCampo.Text + ' like ' + QuotedStr(pValor + '%');
+    3: lFiltro := pCampo.Text + ' like ' + QuotedStr('%' + pValor);
+    4: lFiltro := pCampo.Text + ' like ' + QuotedStr('%' + pValor + '%');
+  end;
+  pQuery.Filter := lFiltro;
+  pQuery.Filtered := False;
+  if (Trim(pValor) <> EmptyStr) then
+    pQuery.Filtered := True;
 end;
 
 end.

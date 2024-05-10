@@ -186,6 +186,7 @@ object frmAluno: TfrmAluno
       ParentShowHint = False
       ShowHint = True
       TabOrder = 2
+      OnChange = edtValorChange
     end
   end
 end
