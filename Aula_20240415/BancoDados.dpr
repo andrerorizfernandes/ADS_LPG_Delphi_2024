@@ -8,7 +8,8 @@ uses
   uCadastroAluno in 'uCadastroAluno.pas' {frmCadastroAluno},
   uPrincipal in 'uPrincipal.pas' {frmPrincipal},
   uUsuario in 'uUsuario.pas' {frmUsuario},
-  uCadastroUsuario in 'uCadastroUsuario.pas' {frmCadastroUsuario};
+  uCadastroUsuario in 'uCadastroUsuario.pas' {frmCadastroUsuario},
+  uCadastroEmpresa in 'uCadastroEmpresa.pas' {frmCadastroEmpresa};
 
 {$R *.res}
 

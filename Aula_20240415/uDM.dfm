@@ -136,7 +136,105 @@ object DM: TDM
   end
   object qrySQLTemporario: TFDQuery
     Connection = Conexao
-    Left = 360
+    Left = 424
     Top = 24
+  end
+  object qryEmpresa: TFDQuery
+    Connection = Conexao
+    SQL.Strings = (
+      'select'
+      
+        '  e.codempresa, e.cnpj, e.nome, e.tipo, e.fantasia, e.naturezaju' +
+        'ridica,'
+      '  e.logradouro, e.numero, e.bairro, e.municipio, e.uf, e.cep'
+      'from empresa e'
+      'where e.cnpj =:cnpj')
+    Left = 336
+    Top = 24
+    ParamData = <
+      item
+        Name = 'CNPJ'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+    object qryEmpresacodempresa: TFDAutoIncField
+      FieldName = 'codempresa'
+      Origin = 'codempresa'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      ReadOnly = False
+      IdentityInsert = True
+    end
+    object qryEmpresacnpj: TStringField
+      FieldName = 'cnpj'
+      Origin = 'cnpj'
+      Required = True
+      Size = 14
+    end
+    object qryEmpresanome: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'nome'
+      Origin = 'nome'
+      Size = 100
+    end
+    object qryEmpresatipo: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'tipo'
+      Origin = 'tipo'
+      Size = 50
+    end
+    object qryEmpresafantasia: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'fantasia'
+      Origin = 'fantasia'
+      Size = 80
+    end
+    object qryEmpresanaturezajuridica: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'naturezajuridica'
+      Origin = 'naturezajuridica'
+      Size = 50
+    end
+    object qryEmpresalogradouro: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'logradouro'
+      Origin = 'logradouro'
+      Size = 150
+    end
+    object qryEmpresanumero: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'numero'
+      Origin = 'numero'
+      Size = 50
+    end
+    object qryEmpresabairro: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'bairro'
+      Origin = 'bairro'
+      Size = 50
+    end
+    object qryEmpresamunicipio: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'municipio'
+      Origin = 'municipio'
+      Size = 70
+    end
+    object qryEmpresauf: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'uf'
+      Origin = 'uf'
+      Size = 2
+    end
+    object qryEmpresacep: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'cep'
+      Origin = 'cep'
+      Size = 13
+    end
+  end
+  object dsrEmpresa: TDataSource
+    DataSet = qryEmpresa
+    Left = 344
+    Top = 32
   end
 end

@@ -129,6 +129,32 @@ CREATE TABLE IF NOT EXISTS `colaborador` (
 -- Copiando dados para a tabela ads.colaborador: ~0 rows (aproximadamente)
 DELETE FROM `colaborador`;
 
+-- Copiando estrutura para tabela ads.empresa
+DROP TABLE IF EXISTS `empresa`;
+CREATE TABLE IF NOT EXISTS `empresa` (
+  `codempresa` int(11) NOT NULL AUTO_INCREMENT,
+  `cnpj` varchar(14) NOT NULL,
+  `nome` varchar(100) DEFAULT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
+  `fantasia` varchar(80) DEFAULT NULL,
+  `naturezajuridica` varchar(50) DEFAULT NULL,
+  `logradouro` varchar(150) DEFAULT NULL,
+  `numero` varchar(50) DEFAULT NULL,
+  `bairro` varchar(50) DEFAULT NULL,
+  `municipio` varchar(70) DEFAULT NULL,
+  `uf` varchar(2) DEFAULT NULL,
+  `cep` varchar(13) DEFAULT NULL,
+  PRIMARY KEY (`codempresa`),
+  UNIQUE KEY `cnpj` (`cnpj`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- Copiando dados para a tabela ads.empresa: ~3 rows (aproximadamente)
+DELETE FROM `empresa`;
+INSERT INTO `empresa` (`codempresa`, `cnpj`, `nome`, `tipo`, `fantasia`, `naturezajuridica`, `logradouro`, `numero`, `bairro`, `municipio`, `uf`, `cep`) VALUES
+	(1, '12345', 'Empresa A', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, '653', 'Empresa B', 'ABC', 'TESTE', 'TR', 'RUA TESTE', '100', 'CIRCULO', 'UBA', 'MG', '3789032147'),
+	(4, '789', 'Empresa C', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
 -- Copiando estrutura para tabela ads.jogadores
 DROP TABLE IF EXISTS `jogadores`;
 CREATE TABLE IF NOT EXISTS `jogadores` (

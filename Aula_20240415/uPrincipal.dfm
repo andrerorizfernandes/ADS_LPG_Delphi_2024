@@ -947,6 +947,10 @@ object frmPrincipal: TfrmPrincipal
         Caption = '&Usu'#225'rio'
         OnClick = Usurio1Click
       end
+      object Empresa1: TMenuItem
+        Caption = '&Empresa'
+        OnClick = Empresa1Click
+      end
     end
   end
   object tmrPrincipal: TTimer

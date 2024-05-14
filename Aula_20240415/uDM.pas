@@ -30,6 +30,20 @@ type
     qryUsuarionome: TStringField;
     qryAlunousuario: TStringField;
     qryUsuarioexcluido: TStringField;
+    qryEmpresa: TFDQuery;
+    dsrEmpresa: TDataSource;
+    qryEmpresacodempresa: TFDAutoIncField;
+    qryEmpresacnpj: TStringField;
+    qryEmpresanome: TStringField;
+    qryEmpresatipo: TStringField;
+    qryEmpresafantasia: TStringField;
+    qryEmpresanaturezajuridica: TStringField;
+    qryEmpresalogradouro: TStringField;
+    qryEmpresanumero: TStringField;
+    qryEmpresabairro: TStringField;
+    qryEmpresamunicipio: TStringField;
+    qryEmpresauf: TStringField;
+    qryEmpresacep: TStringField;
   private
     { Private declarations }
   public

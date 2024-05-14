@@ -150,6 +150,10 @@
             <Form>frmCadastroUsuario</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uCadastroEmpresa.pas">
+            <Form>frmCadastroEmpresa</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

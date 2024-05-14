@@ -16,13 +16,16 @@ type
     stbRodape: TStatusBar;
     imgPrincipal: TImage;
     tmrPrincipal: TTimer;
+    Empresa1: TMenuItem;
     procedure tmrPrincipalTimer(Sender: TObject);
     procedure Aluno1Click(Sender: TObject);
     procedure Usurio1Click(Sender: TObject);
+    procedure Empresa1Click(Sender: TObject);
   private
     procedure PreencherRodape;
     procedure ExibirAluno;
     procedure ExibirUsuario;
+    procedure ExibirEmpresa;
     { Private declarations }
   public
     { Public declarations }
@@ -35,13 +38,18 @@ implementation
 
 {$R *.dfm}
 
-uses uAluno, uUsuario;
+uses uAluno, uUsuario, uCadastroEmpresa;
 
 { TfrmPrincipal }
 
 procedure TfrmPrincipal.Aluno1Click(Sender: TObject);
 begin
   ExibirAluno;
+end;
+
+procedure TfrmPrincipal.Empresa1Click(Sender: TObject);
+begin
+  ExibirEmpresa;
 end;
 
 procedure TfrmPrincipal.ExibirAluno;
@@ -52,6 +60,17 @@ begin
     lAluno.ShowModal;
   finally
     lAluno.Free;
+  end;
+end;
+
+procedure TfrmPrincipal.ExibirEmpresa;
+begin
+  var lEmpresa: TfrmCadastroEmpresa;
+  lEmpresa := TfrmCadastroEmpresa.Create(nil);
+  try
+    lEmpresa.ShowModal;
+  finally
+    lEmpresa.Free;
   end;
 end;
 
