@@ -4,7 +4,10 @@ interface
 
 uses
   System.Types, Vcl.DBGrids, Vcl.Grids, Vcl.StdCtrls, FireDAC.Comp.Client,
-  Vcl.ExtCtrls;
+  Vcl.ExtCtrls, Vcl.Forms, Vcl.Buttons;
+
+type
+  TOperacaoDeTela = (Navegando, Inserindo, Editando, Excluindo, PesquisaLocaliza, PesquisaNaoLocalizada);
 
 const
   NOMESISTEMA = 'Banco de dados';
@@ -25,12 +28,15 @@ const
   procedure PovoarCampos(pCampo: TComboBox; pQuery: TFDQuery);
   procedure PovoarOperacoes(pOperacao: TComboBox);
   procedure FiltrarDados(pCampo, pOperacao: TComboBox; pQuery: TFDQuery; pValor: string);
-
+  procedure PassarParametro(DataSet: TFDQuery; Valores: array of variant; AbrirCDS : Boolean=True);
+  function CnpjValido(pCnpj: string): Boolean;
+  procedure ControlarBotoes(const pOperacaoDeTela: TOperacaoDeTela; const pBotaoInserir,
+    pBotaoEditar, pBotaoExcluir, pBotaoGravar, pBotaoCancelar: TBitBtn);
 
 implementation
 
 uses
-  Vcl.Forms, Winapi.Windows, Vcl.Graphics,
+  Winapi.Windows, Vcl.Graphics,
   System.SysUtils;
 
 procedure Alerta(Mensagem: string);
@@ -234,6 +240,126 @@ begin
   pQuery.Filtered := False;
   if (Trim(pValor) <> EmptyStr) then
     pQuery.Filtered := True;
+end;
+
+procedure PassarParametro(DataSet : TFDQuery; Valores : array of variant; AbrirCDS: Boolean=True);
+var
+  i : integer;
+begin
+  DataSet.Close;
+  for i := 0 to Pred(length(Valores)) do
+    DataSet.Params[i].Value:= Valores[i];
+
+  if AbrirCDS then
+  begin
+    try
+      DataSet.Open;
+    except
+      Alerta('Valor inválido!');
+    end;
+  end;
+end;
+
+function CnpjValido(pCnpj: string): Boolean;
+var   dig13, dig14: string;
+    sm, i, r, peso: integer;
+begin
+// length - retorna o tamanho da string do CNPJ (CNPJ é um número formado por 14 dígitos)
+  if ((pCnpj = '00000000000000') or (pCnpj = '11111111111111') or
+  (pCnpj = '22222222222222') or (pCnpj = '33333333333333') or
+  (pCnpj = '44444444444444') or (pCnpj = '55555555555555') or
+  (pCnpj = '66666666666666') or (pCnpj = '77777777777777') or
+  (pCnpj = '88888888888888') or (pCnpj = '99999999999999') or
+  (length(pCnpj) <> 14)) then
+  begin
+    Result := false;
+    exit;
+  end;
+
+// "try" - protege o código para eventuais erros de conversão de tipo através da função "StrToInt"
+  try
+{ *-- Cálculo do 1o. Digito Verificador --* }
+     sm:= 0;
+     peso:= 2;
+     for i := 12 downto 1 do
+    begin
+      //StrToInt converte o i-ésimo caractere do CNPJ em um número
+      sm:= sm + (StrToInt(pCnpj[i]) * peso);
+      peso:= peso + 1;
+      if (peso = 10) then peso := 2;
+    end;
+    r:= sm mod 11;
+    if ((r = 0) or (r = 1))
+       then dig13 := '0'
+    else str((11-r):1, dig13); // converte um número no respectivo caractere numérico
+
+{ *-- Cálculo do 2o. Digito Verificador --* }
+    sm:= 0;
+    peso:= 2;
+    for i := 13 downto 1 do
+    begin
+      sm:= sm + (StrToInt(pCnpj[i]) * peso);
+      peso:= peso + 1;
+      if (peso = 10) then peso:= 2;
+    end;
+    r:= sm mod 11;
+    if ((r = 0) or (r = 1)) then dig14:= '0' else str((11-r):1, dig14);
+
+{ Verifica se os digitos calculados conferem com os digitos informados. }
+    if ((dig13 = pCnpj[13]) and (dig14 = pCnpj[14]))then
+      Result := true
+    else
+      Result := false;
+  except
+    Result := false
+  end;
+end;
+
+procedure ControlarBotoes(const pOperacaoDeTela: TOperacaoDeTela; const pBotaoInserir,
+  pBotaoEditar, pBotaoExcluir, pBotaoGravar, pBotaoCancelar: TBitBtn);
+begin
+  case pOperacaoDeTela of
+    Navegando:
+    begin
+      pBotaoInserir.Enabled := True;
+      pBotaoEditar.Enabled := False;
+      pBotaoExcluir.Enabled := False;
+      pBotaoGravar.Enabled := False;
+      pBotaoCancelar.Enabled := False;
+    end;
+    Inserindo:
+    begin
+      pBotaoInserir.Enabled := False;
+      pBotaoEditar.Enabled := False;
+      pBotaoExcluir.Enabled := False;
+      pBotaoGravar.Enabled := True;
+      pBotaoCancelar.Enabled := True;
+    end;
+    Editando:
+    begin
+      pBotaoInserir.Enabled := False;
+      pBotaoEditar.Enabled := False;
+      pBotaoExcluir.Enabled := False;
+      pBotaoGravar.Enabled := True;
+      pBotaoCancelar.Enabled := True;
+    end;
+    PesquisaLocaliza:
+    begin
+      pBotaoInserir.Enabled := False;
+      pBotaoEditar.Enabled := True;
+      pBotaoExcluir.Enabled := True;
+      pBotaoGravar.Enabled := False;
+      pBotaoCancelar.Enabled := True;
+    end;
+    PesquisaNaoLocalizada:
+    begin
+      pBotaoInserir.Enabled := False;
+      pBotaoEditar.Enabled := False;
+      pBotaoExcluir.Enabled := False;
+      pBotaoGravar.Enabled := False;
+      pBotaoCancelar.Enabled := False;
+    end;
+  end;
 end;
 
 end.

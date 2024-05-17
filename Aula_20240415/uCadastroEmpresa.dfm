@@ -13,6 +13,8 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poScreenCenter
+  OnActivate = FormActivate
+  OnClose = FormClose
   TextHeight = 15
   object pnlBotoes: TPanel
     Left = 0
@@ -21,8 +23,6 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
     Height = 31
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 329
-    ExplicitWidth = 849
     object btnCancelar: TBitBtn
       Left = 868
       Top = 1
@@ -31,7 +31,7 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       Align = alRight
       Caption = '&Cancelar'
       TabOrder = 4
-      ExplicitLeft = 736
+      OnClick = btnCancelarClick
     end
     object btnInserir: TBitBtn
       Left = 420
@@ -41,7 +41,7 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       Align = alRight
       Caption = '&Inserir'
       TabOrder = 0
-      ExplicitLeft = 736
+      OnClick = btnInserirClick
     end
     object btnEditar: TBitBtn
       Left = 532
@@ -51,7 +51,7 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       Align = alRight
       Caption = '&Editar'
       TabOrder = 1
-      ExplicitLeft = 736
+      OnClick = btnEditarClick
     end
     object btnExcluir: TBitBtn
       Left = 644
@@ -61,7 +61,7 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       Align = alRight
       Caption = 'E&xcluir'
       TabOrder = 2
-      ExplicitLeft = 736
+      OnClick = btnExcluirClick
     end
     object btnGravar: TBitBtn
       Left = 756
@@ -71,7 +71,7 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       Align = alRight
       Caption = '&Gravar'
       TabOrder = 3
-      ExplicitLeft = 736
+      OnClick = btnGravarClick
     end
   end
   object pnlCnpj: TPanel
@@ -81,7 +81,6 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
     Height = 52
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 849
     object lblCnpj: TLabel
       Left = 7
       Top = 4
@@ -121,10 +120,6 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
     Height = 157
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 24
-    ExplicitTop = 151
-    ExplicitWidth = 849
-    ExplicitHeight = 145
     object lblNome: TLabel
       Left = 7
       Top = 8

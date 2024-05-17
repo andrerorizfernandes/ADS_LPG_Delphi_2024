@@ -4,8 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
-  Data.DB, Vcl.Mask, Vcl.DBCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.Mask, Vcl.DBCtrls;
 
 type
   TfrmCadastroEmpresa = class(TForm)
@@ -41,7 +40,18 @@ type
     lblCep: TLabel;
     dbeCep: TDBEdit;
     procedure btnPesquisaCnpjClick(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnInserirClick(Sender: TObject);
+    procedure btnEditarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure btnGravarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
+    procedure CarregarEmpresa(const pCnpj: string);
+    procedure ValidarCnpj(const pCnpj: string);
+    procedure ControlarVisibilidadeCampos;
+    procedure GravarDados;
     { Private declarations }
   public
     { Public declarations }
@@ -50,15 +60,127 @@ type
 implementation
 
 uses
-  uDM;
+  uDM, uFuncoes, Data.DB;
 
 {$R *.dfm}
 
+procedure TfrmCadastroEmpresa.btnCancelarClick(Sender: TObject);
+begin
+  DM.qryEmpresa.Cancel;
+  PassarParametro(DM.qryEmpresa, [-1]);
+  edtCnpj.Clear;
+  edtCnpj.SetFocus;
+  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+end;
+
+procedure TfrmCadastroEmpresa.btnEditarClick(Sender: TObject);
+begin
+  ControlarBotoes(Editando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  DM.qryEmpresa.Edit;
+  dbeNome.SetFocus;
+  ControlarVisibilidadeCampos;
+end;
+
+procedure TfrmCadastroEmpresa.btnExcluirClick(Sender: TObject);
+begin
+  if (not Pergunta('Deseja excluir a empresa?')) then
+   Exit;
+
+  DM.qryEmpresa.Delete;
+  edtCnpj.Clear;
+  edtCnpj.SetFocus;
+  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+end;
+
+procedure TfrmCadastroEmpresa.btnGravarClick(Sender: TObject);
+begin
+  ValidarCnpj(edtCnpj.Text);
+  GravarDados;
+  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+end;
+
+procedure TfrmCadastroEmpresa.btnInserirClick(Sender: TObject);
+begin
+  ControlarBotoes(Inserindo, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  DM.qryEmpresa.Append;
+  edtCnpj.SetFocus;
+  ControlarVisibilidadeCampos;
+end;
+
 procedure TfrmCadastroEmpresa.btnPesquisaCnpjClick(Sender: TObject);
 begin
-  DM.qryEmpresa.Close;
-  DM.qryEmpresa.Params[0].Value := edtCnpj.Text;
-  DM.qryEmpresa.Open;
+  ValidarCnpj(edtCnpj.Text);
+  CarregarEmpresa(edtCnpj.Text);
+end;
+
+procedure TfrmCadastroEmpresa.CarregarEmpresa(const pCnpj: string);
+begin
+  PassarParametro(DM.qryEmpresa, [pCnpj]);
+  if DM.qryEmpresa.IsEmpty then
+    ControlarBotoes(PesquisaNaoLocalizada, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar)
+  else
+    ControlarBotoes(PesquisaLocaliza, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+end;
+
+procedure TfrmCadastroEmpresa.ControlarVisibilidadeCampos;
+begin
+  pnlCampos.Enabled := DM.qryEmpresa.State in [dsInsert, dsEdit];
+end;
+
+procedure TfrmCadastroEmpresa.FormActivate(Sender: TObject);
+begin
+  PassarParametro(DM.qryEmpresa, [-1]);
+  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  ControlarVisibilidadeCampos;
+end;
+
+procedure TfrmCadastroEmpresa.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  PassarParametro(DM.qryEmpresa, [-1], False);
+end;
+
+procedure TfrmCadastroEmpresa.GravarDados;
+begin
+  try
+    DM.qryEmpresacnpj.Value := edtCnpj.Text;
+    DM.qryEmpresa.Post;
+    PassarParametro(DM.qryEmpresa, [-1]);
+    edtCnpj.Clear;
+    edtCnpj.SetFocus;
+    Informacao('Operação concluída com sucesso');
+  except
+    on E: Exception do
+      if E.Message.Contains('Duplicate entry') then
+      begin
+        Erro('O cnpj informado já existe');
+        edtCnpj.Text;
+      end;
+    end;
+end;
+
+procedure TfrmCadastroEmpresa.ValidarCnpj(const pCnpj: string);
+begin
+  if pCnpj.Trim.IsEmpty then
+  begin
+    Alerta('Informe o cnpj');
+    edtCnpj.SetFocus;
+    Abort;
+  end;
+
+  if pCnpj.Trim.Length <> 14 then
+  begin
+    Alerta('Tamanho de cnpj incorreto');
+    edtCnpj.SetFocus;
+    Abort;
+  end;
+
+  if (not CnpjValido(pCnpj)) then
+  begin
+    Alerta('O número do cnpj informado é inválido');
+    edtCnpj.SetFocus;
+    Abort;
+  end;
 end;
 
 end.
