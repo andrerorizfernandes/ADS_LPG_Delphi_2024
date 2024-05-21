@@ -154,6 +154,11 @@
             <Form>frmCadastroEmpresa</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uWebServiceEmpresa.pas">
+            <Form>WebServiceEmpresa</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

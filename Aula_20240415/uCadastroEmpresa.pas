@@ -52,6 +52,7 @@ type
     procedure ValidarCnpj(const pCnpj: string);
     procedure ControlarVisibilidadeCampos;
     procedure GravarDados;
+    procedure RecuperarDadosEmpresaWebService(const pCnpj: string);
     { Private declarations }
   public
     { Public declarations }
@@ -60,7 +61,7 @@ type
 implementation
 
 uses
-  uDM, uFuncoes, Data.DB;
+  uDM, uFuncoes, Data.DB, uWebServiceEmpresa;
 
 {$R *.dfm}
 
@@ -77,8 +78,8 @@ procedure TfrmCadastroEmpresa.btnEditarClick(Sender: TObject);
 begin
   ControlarBotoes(Editando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
   DM.qryEmpresa.Edit;
-  dbeNome.SetFocus;
   ControlarVisibilidadeCampos;
+  dbeNome.SetFocus;
 end;
 
 procedure TfrmCadastroEmpresa.btnExcluirClick(Sender: TObject);
@@ -103,8 +104,9 @@ procedure TfrmCadastroEmpresa.btnInserirClick(Sender: TObject);
 begin
   ControlarBotoes(Inserindo, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
   DM.qryEmpresa.Append;
-  edtCnpj.SetFocus;
+  RecuperarDadosEmpresaWebService(edtCnpj.Text);
   ControlarVisibilidadeCampos;
+  edtCnpj.SetFocus;
 end;
 
 procedure TfrmCadastroEmpresa.btnPesquisaCnpjClick(Sender: TObject);
@@ -157,6 +159,34 @@ begin
         edtCnpj.Text;
       end;
     end;
+end;
+
+procedure TfrmCadastroEmpresa.RecuperarDadosEmpresaWebService(const pCnpj: string);
+begin
+  if (not (DM.qryEmpresa.State = dsInsert)) then
+    Exit;
+
+  var lWebServiceEmpresa: TWebServiceEmpresa;
+  lWebServiceEmpresa := TWebServiceEmpresa.Create(nil);
+  try
+    var lEmpresa: TEmpresa;
+    if lWebServiceEmpresa.RetornaDadosEmpresa(pCnpj, lEmpresa) then
+    begin
+      DM.qryEmpresanome.Value := lEmpresa.Nome;
+      DM.qryEmpresatipo.Value := lEmpresa.Tipo;
+      DM.qryEmpresafantasia.Value := lEmpresa.Fantasia;
+      DM.qryEmpresanaturezajuridica.Value := lEmpresa.NaturezaJuridica;
+      DM.qryEmpresalogradouro.Value := lEmpresa.Logradouro;
+      DM.qryEmpresanumero.Value := lEmpresa.Numero;
+      DM.qryEmpresabairro.Value := lEmpresa.Bairro;
+      DM.qryEmpresamunicipio.Value := lEmpresa.Municipio;
+      DM.qryEmpresauf.Value := lEmpresa.Uf;
+      DM.qryEmpresacep.Value := lEmpresa.Cep;
+    end;
+  finally
+    lWebServiceEmpresa.Free;
+  end;
+
 end;
 
 procedure TfrmCadastroEmpresa.ValidarCnpj(const pCnpj: string);

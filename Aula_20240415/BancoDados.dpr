@@ -9,7 +9,8 @@ uses
   uPrincipal in 'uPrincipal.pas' {frmPrincipal},
   uUsuario in 'uUsuario.pas' {frmUsuario},
   uCadastroUsuario in 'uCadastroUsuario.pas' {frmCadastroUsuario},
-  uCadastroEmpresa in 'uCadastroEmpresa.pas' {frmCadastroEmpresa};
+  uCadastroEmpresa in 'uCadastroEmpresa.pas' {frmCadastroEmpresa},
+  uWebServiceEmpresa in 'uWebServiceEmpresa.pas' {WebServiceEmpresa: TDataModule};
 
 {$R *.res}
 
