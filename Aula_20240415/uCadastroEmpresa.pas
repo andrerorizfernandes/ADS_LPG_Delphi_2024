@@ -47,12 +47,16 @@ type
     procedure btnExcluirClick(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure edtCnpjExit(Sender: TObject);
+    procedure edtCnpjKeyPress(Sender: TObject; var Key: Char);
+    procedure dbeCepKeyPress(Sender: TObject; var Key: Char);
   private
     procedure CarregarEmpresa(const pCnpj: string);
     procedure ValidarCnpj(const pCnpj: string);
     procedure ControlarVisibilidadeCampos;
     procedure GravarDados;
     procedure RecuperarDadosEmpresaWebService(const pCnpj: string);
+    procedure ValidarDados;
     { Private declarations }
   public
     { Public declarations }
@@ -71,13 +75,15 @@ begin
   PassarParametro(DM.qryEmpresa, [-1]);
   edtCnpj.Clear;
   edtCnpj.SetFocus;
-  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  Caption := 'Empresa';
+  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar, btnPesquisaCnpj);
 end;
 
 procedure TfrmCadastroEmpresa.btnEditarClick(Sender: TObject);
 begin
-  ControlarBotoes(Editando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  ControlarBotoes(Editando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar, btnPesquisaCnpj);
   DM.qryEmpresa.Edit;
+  Caption := 'Empresa [Editando]';
   ControlarVisibilidadeCampos;
   dbeNome.SetFocus;
 end;
@@ -88,23 +94,26 @@ begin
    Exit;
 
   DM.qryEmpresa.Delete;
+  Caption := 'Empresa';
   edtCnpj.Clear;
   edtCnpj.SetFocus;
-  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar, btnPesquisaCnpj);
 end;
 
 procedure TfrmCadastroEmpresa.btnGravarClick(Sender: TObject);
 begin
+  ValidarDados;
   ValidarCnpj(edtCnpj.Text);
   GravarDados;
-  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  Caption := 'Empresa';
+  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar, btnPesquisaCnpj);
 end;
 
 procedure TfrmCadastroEmpresa.btnInserirClick(Sender: TObject);
 begin
-  ControlarBotoes(Inserindo, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  ControlarBotoes(Inserindo, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar, btnPesquisaCnpj);
   DM.qryEmpresa.Append;
-  RecuperarDadosEmpresaWebService(edtCnpj.Text);
+  Caption := 'Empresa [Inserindo]';
   ControlarVisibilidadeCampos;
   edtCnpj.SetFocus;
 end;
@@ -119,9 +128,9 @@ procedure TfrmCadastroEmpresa.CarregarEmpresa(const pCnpj: string);
 begin
   PassarParametro(DM.qryEmpresa, [pCnpj]);
   if DM.qryEmpresa.IsEmpty then
-    ControlarBotoes(PesquisaNaoLocalizada, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar)
+    ControlarBotoes(PesquisaNaoLocalizada, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar, btnPesquisaCnpj)
   else
-    ControlarBotoes(PesquisaLocaliza, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+    ControlarBotoes(PesquisaLocaliza, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar, btnPesquisaCnpj);
 end;
 
 procedure TfrmCadastroEmpresa.ControlarVisibilidadeCampos;
@@ -129,10 +138,26 @@ begin
   pnlCampos.Enabled := DM.qryEmpresa.State in [dsInsert, dsEdit];
 end;
 
+procedure TfrmCadastroEmpresa.dbeCepKeyPress(Sender: TObject; var Key: Char);
+begin
+  CaracterValido(SomenteNumeros, Key);
+end;
+
+procedure TfrmCadastroEmpresa.edtCnpjExit(Sender: TObject);
+begin
+  RecuperarDadosEmpresaWebService(edtCnpj.Text);
+end;
+
+procedure TfrmCadastroEmpresa.edtCnpjKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+    btnPesquisaCnpj.Click;
+end;
+
 procedure TfrmCadastroEmpresa.FormActivate(Sender: TObject);
 begin
   PassarParametro(DM.qryEmpresa, [-1]);
-  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar);
+  ControlarBotoes(Navegando, btnInserir, btnEditar, btnExcluir, btnGravar, btnCancelar, btnPesquisaCnpj);
   ControlarVisibilidadeCampos;
 end;
 
@@ -163,11 +188,21 @@ end;
 
 procedure TfrmCadastroEmpresa.RecuperarDadosEmpresaWebService(const pCnpj: string);
 begin
+  if pCnpj.Length <> 14 then
+    Exit;
+
+  if (not CnpjValido(pCnpj)) then
+    Exit;
+
   if (not (DM.qryEmpresa.State = dsInsert)) then
     Exit;
 
   var lWebServiceEmpresa: TWebServiceEmpresa;
   lWebServiceEmpresa := TWebServiceEmpresa.Create(nil);
+  Screen.Cursor := crHourGlass;
+  var lTituloAnterior: string;
+  lTituloAnterior := Caption;
+  Caption := 'Aguarde. Consultando webservice...';
   try
     var lEmpresa: TEmpresa;
     if lWebServiceEmpresa.RetornaDadosEmpresa(pCnpj, lEmpresa) then
@@ -185,6 +220,8 @@ begin
     end;
   finally
     lWebServiceEmpresa.Free;
+    Screen.Cursor := crDefault;
+    Caption := lTituloAnterior;
   end;
 
 end;
@@ -208,6 +245,17 @@ begin
   if (not CnpjValido(pCnpj)) then
   begin
     Alerta('O número do cnpj informado é inválido');
+    edtCnpj.SetFocus;
+    Abort;
+  end;
+end;
+
+procedure TfrmCadastroEmpresa.ValidarDados;
+begin
+  if (DM.qryEmpresa.State = dsEdit) and
+     (DM.qryEmpresacnpj.Value <> edtCnpj.Text) then
+  begin
+    Alerta('O cnpj não pode ser alterado');
     edtCnpj.SetFocus;
     Abort;
   end;

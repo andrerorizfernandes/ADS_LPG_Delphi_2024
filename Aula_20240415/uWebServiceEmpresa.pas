@@ -62,7 +62,7 @@ begin
   pEmpresa.Bairro := mdtEmpresa.FieldByName('bairro').AsString;
   pEmpresa.Municipio := mdtEmpresa.FieldByName('municipio').AsString;
   pEmpresa.Uf := mdtEmpresa.FieldByName('uf').AsString;
-  pEmpresa.Cep := mdtEmpresa.FieldByName('cep').AsString;
+  pEmpresa.Cep := mdtEmpresa.FieldByName('cep').AsString.Replace('.', '').Replace('-', '');
   Result := True;
 end;
 

@@ -31,7 +31,7 @@ const
   procedure PassarParametro(DataSet: TFDQuery; Valores: array of variant; AbrirCDS : Boolean=True);
   function CnpjValido(pCnpj: string): Boolean;
   procedure ControlarBotoes(const pOperacaoDeTela: TOperacaoDeTela; const pBotaoInserir,
-    pBotaoEditar, pBotaoExcluir, pBotaoGravar, pBotaoCancelar: TBitBtn);
+    pBotaoEditar, pBotaoExcluir, pBotaoGravar, pBotaoCancelar, pBotaoPesquisar: TBitBtn);
 
 implementation
 
@@ -316,7 +316,7 @@ begin
 end;
 
 procedure ControlarBotoes(const pOperacaoDeTela: TOperacaoDeTela; const pBotaoInserir,
-  pBotaoEditar, pBotaoExcluir, pBotaoGravar, pBotaoCancelar: TBitBtn);
+  pBotaoEditar, pBotaoExcluir, pBotaoGravar, pBotaoCancelar, pBotaoPesquisar: TBitBtn);
 begin
   case pOperacaoDeTela of
     Navegando:
@@ -326,6 +326,7 @@ begin
       pBotaoExcluir.Enabled := False;
       pBotaoGravar.Enabled := False;
       pBotaoCancelar.Enabled := False;
+      pBotaoPesquisar.Enabled := True;
     end;
     Inserindo:
     begin
@@ -334,6 +335,7 @@ begin
       pBotaoExcluir.Enabled := False;
       pBotaoGravar.Enabled := True;
       pBotaoCancelar.Enabled := True;
+      pBotaoPesquisar.Enabled := False;
     end;
     Editando:
     begin
@@ -342,6 +344,7 @@ begin
       pBotaoExcluir.Enabled := False;
       pBotaoGravar.Enabled := True;
       pBotaoCancelar.Enabled := True;
+      pBotaoPesquisar.Enabled := True;
     end;
     PesquisaLocaliza:
     begin
@@ -350,6 +353,7 @@ begin
       pBotaoExcluir.Enabled := True;
       pBotaoGravar.Enabled := False;
       pBotaoCancelar.Enabled := True;
+      pBotaoPesquisar.Enabled := True;
     end;
     PesquisaNaoLocalizada:
     begin
@@ -357,7 +361,8 @@ begin
       pBotaoEditar.Enabled := False;
       pBotaoExcluir.Enabled := False;
       pBotaoGravar.Enabled := False;
-      pBotaoCancelar.Enabled := False;
+      pBotaoCancelar.Enabled := True;
+      pBotaoPesquisar.Enabled := True;
     end;
   end;
 end;

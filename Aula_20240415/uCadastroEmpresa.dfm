@@ -96,6 +96,8 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       MaxLength = 14
       NumbersOnly = True
       TabOrder = 0
+      OnExit = edtCnpjExit
+      OnKeyPress = edtCnpjKeyPress
     end
     object btnPesquisaCnpj: TBitBtn
       Left = 135
@@ -286,9 +288,18 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       Top = 122
       Width = 199
       Height = 23
+      Color = 14286847
       DataField = 'cep'
       DataSource = DM.dsrEmpresa
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      MaxLength = 8
+      ParentFont = False
       TabOrder = 9
+      OnKeyPress = dbeCepKeyPress
     end
   end
 end
