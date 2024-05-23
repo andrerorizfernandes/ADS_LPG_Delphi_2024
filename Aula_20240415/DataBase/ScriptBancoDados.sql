@@ -146,14 +146,20 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `cep` varchar(13) DEFAULT NULL,
   PRIMARY KEY (`codempresa`),
   UNIQUE KEY `cnpj` (`cnpj`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela ads.empresa: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela ads.empresa: ~8 rows (aproximadamente)
 DELETE FROM `empresa`;
 INSERT INTO `empresa` (`codempresa`, `cnpj`, `nome`, `tipo`, `fantasia`, `naturezajuridica`, `logradouro`, `numero`, `bairro`, `municipio`, `uf`, `cep`) VALUES
-	(1, '12345', 'Empresa A', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-	(3, '653', 'Empresa B', 'ABC', 'TESTE', 'TR', 'RUA TESTE', '100', 'CIRCULO', 'UBA', 'MG', '3789032147'),
-	(4, '789', 'Empresa C', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	(1, '87280252000108', 'Empresa A', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, '84429695000111', 'Empresa XPTO', 'ABC', 'TESTE', 'TR', 'RUA TESTE', '100', 'CIRCULO', 'UBA', 'MG', '3789032147'),
+	(4, '09552023000183', 'Empresa C', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(5, '15206134000130', 'teste', 'dsdf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+	(6, '07175725000160', 'WEG EQUIPAMENTOS ELETRICOS S/A', 'MATRIZ', 'CORPORATIVO', '205-4 - Sociedade Anônima Fechada', 'AV PREFEITO WALDEMAR GRUBBA', '3300', 'VILA LALAU', 'JARAGUA DO SUL', 'SC', '89.256-900'),
+	(7, '33592510000154', 'VALE S.A.x', 'MATRIZ', '', '204-6 - Sociedade Anônima Aberta', 'PR BOTAFOGO', '186', 'BOTAFOGO', 'RIO DE JANEIRO', 'RJ', '22250145'),
+	(8, '60742855000624', 'ASSOCIACAO SANTA MARCELINA', 'FILIAL', 'FACULDADE SANTA MARCELINA MURIAE', '399-9 - Associação Privada', 'PRACA ANNINA BISEGNA', '40', 'CENTRO', 'MURIAE', 'MG', '36880083'),
+	(9, '22745194000197', 'SUPERMERCADOS LOURENCO LTDA', 'MATRIZ', '', '206-2 - Sociedade Empresária Limitada', 'AV SILVERIO CAMPOS', '404', 'CENTRO', 'MURIAE', 'MG', '36880000'),
+	(10, '04916617000102', 'COMERCIAL PRAINHA LTDA', 'MATRIZ', 'COMERCIAL PRAINHA', '206-2 - Sociedade Empresária Limitada', 'AVENIDA CORONEL MONTEIRO DE CASTRO', '811', 'BARRA', 'MURIAE', 'MG', '36884036');
 
 -- Copiando estrutura para tabela ads.jogadores
 DROP TABLE IF EXISTS `jogadores`;
@@ -222,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   UNIQUE KEY `cpf` (`cpf`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
--- Copiando dados para a tabela ads.usuario: ~6 rows (aproximadamente)
+-- Copiando dados para a tabela ads.usuario: ~5 rows (aproximadamente)
 DELETE FROM `usuario`;
 INSERT INTO `usuario` (`id`, `nome`, `cpf`, `identidade`, `excluido`) VALUES
 	(3, 'Supervisor', '25300019011', '3', 'N'),
