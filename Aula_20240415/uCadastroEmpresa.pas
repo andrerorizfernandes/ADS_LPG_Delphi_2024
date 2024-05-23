@@ -48,7 +48,6 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure edtCnpjExit(Sender: TObject);
-    procedure edtCnpjKeyPress(Sender: TObject; var Key: Char);
     procedure dbeCepKeyPress(Sender: TObject; var Key: Char);
   private
     procedure CarregarEmpresa(const pCnpj: string);
@@ -146,12 +145,6 @@ end;
 procedure TfrmCadastroEmpresa.edtCnpjExit(Sender: TObject);
 begin
   RecuperarDadosEmpresaWebService(edtCnpj.Text);
-end;
-
-procedure TfrmCadastroEmpresa.edtCnpjKeyPress(Sender: TObject; var Key: Char);
-begin
-  if Key = #13 then
-    btnPesquisaCnpj.Click;
 end;
 
 procedure TfrmCadastroEmpresa.FormActivate(Sender: TObject);

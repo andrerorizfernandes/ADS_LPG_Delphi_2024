@@ -97,7 +97,6 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       NumbersOnly = True
       TabOrder = 0
       OnExit = edtCnpjExit
-      OnKeyPress = edtCnpjKeyPress
     end
     object btnPesquisaCnpj: TBitBtn
       Left = 135
